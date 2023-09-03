@@ -7,6 +7,7 @@ import java.sql.*;
 
 import com.sun.net.httpserver.*;
 import com.wepet.rotas.InserirProdutoHandler;
+import com.wepet.rotas.PetsHandler;
 import com.wepet.rotas.ProdutosHandler;
 import com.wepet.rotas.HandlerPadrao;
 import com.wepet.rotas.versaoHandler;
@@ -23,6 +24,7 @@ public class App {
         server.createContext("/version", new versaoHandler());
         server.createContext("/adicionarproduto", new InserirProdutoHandler(conexao));
         server.createContext("/produtos", new ProdutosHandler(conexao));
+        server.createContext("/pets", new PetsHandler(conexao));
 
 
         server.setExecutor(null);
