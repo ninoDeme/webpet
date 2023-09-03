@@ -26,8 +26,8 @@ public class App {
 
 
         // Declarando as rotas do servidor
-        // exemplo: 
-        // -> server.createContext("/version", new versaoHandler()); 
+        // exemplo:
+        // -> server.createContext("/version", new versaoHandler());
         // declara uma rota "/version" que pode ser acessada atravez de http://localhost:9000/version
         // ao acessar essa rota o metodo chamado handle da classe "versaoHandler" vai ser executado
         server.createContext("/", new HandlerPadrao());
