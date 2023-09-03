@@ -15,5 +15,11 @@
         foto TEXT, -- foto de perfil do usuario, caminho da foto no servidor ex: C:/imagens/a23SDq2d2.png
     );
 
-    CREATE TABLE etc...
+    CREATE TABLE favoritos_usuario (
+        id_usuario   INTEGER PRIMARY KEY,
+        id_produto TEXT    NOT NULL,
+        tipo      INTEGER NOT NULL,
+        FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) 
+        FOREIGN KEY (id_produto) REFERENCES produto (id_produto) 
+    );
 */
