@@ -1,4 +1,4 @@
-package com.wepet.rotas;
+package com.wepet.classes;
 
 public class Produto {
     int id;

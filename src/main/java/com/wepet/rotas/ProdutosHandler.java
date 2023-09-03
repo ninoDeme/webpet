@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.wepet.classes.Produto;
 
 public class ProdutosHandler implements HttpHandler {
 
