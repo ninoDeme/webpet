@@ -31,3 +31,9 @@ create table usuario(
     email TEXT NOT NULL UNIQUE,
     telefone TEXT NOT NULL
     );
+CREATE TABLE ANIMAL(
+    id_animal INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL, 
+    descricao TEXT, 
+    imagem TEXT
+    );
