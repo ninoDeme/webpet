@@ -23,3 +23,11 @@
         FOREIGN KEY (id_produto) REFERENCES produto (id_produto) 
     );
 */
+
+create table usuario(
+    id_usuario INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    senha NOT NULL, 
+    email TEXT NOT NULL UNIQUE,
+    telefone TEXT NOT NULL
+    );
