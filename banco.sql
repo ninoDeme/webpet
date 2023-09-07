@@ -37,3 +37,14 @@ CREATE TABLE ANIMAL(
     descricao TEXT, 
     imagem TEXT
     );
+        CREATE TABLE categoria(
+        id_categoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+        nome TEXT NOT NULL,
+        descricao TEXT
+    );
+CREATE TABLE fabricante(
+    id_fabricante INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    nome TEXT NOT NULL,
+    descricao TEXT,
+    logo TEXT NOT NULL
+    );
