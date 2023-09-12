@@ -30,7 +30,7 @@ create table usuario(
     telefone TEXT NOT NULL
 );
 
-CREATE TABLE ANIMAL(
+CREATE TABLE animal(
     id_animal INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     descricao TEXT,
@@ -40,31 +40,26 @@ CREATE TABLE ANIMAL(
 CREATE TABLE categoria(
     id_categoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
     nome TEXT NOT NULL,
-    descricao TEXT
-);
-
-CREATE TABLE fabricante(
-    id_fabricante INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    nome TEXT NOT NULL,
-    descricao TEXT,
-    logo TEXT NOT NULL
+    imagem TEXT
 );
 
 CREATE table produto(
-    id_animal INTEGER,
-    id_categoria INTEGER,
-    id_fabricante INTEGER,
-    id_produto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     descricao TEXT,
+    detalhes TEXT,
+    peso DOUBLE,
     preco DOUBLE,
     quantidade INTEGER NOT NULL,
+    id_animal INTEGER,
+    id_categoria INTEGER,
+    id_produto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     FOREIGN KEY(id_animal) REFERENCES ANIMAL(id_animal),
-    FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria),
-    FOREIGN KEY(id_fabricante) REFERENCES fabricante(id_fabricante)
+    FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
 );
-CREATE TABLE id_imagens(id_produto PRIMARY KEY,
-caminho TEXT NOT NULL,
-descricao TEXT,
-FOREGIN KEY(id_produto)REFERENCES produto(id_produto)
+
+CREATE TABLE imagens_produto(
+    id_produto integer NOT NULL,
+    caminho TEXT NOT NULL,
+    descricao TEXT,
+    FOREIGN KEY(id_produto)REFERENCES produto(id_produto)
 );
