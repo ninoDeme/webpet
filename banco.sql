@@ -75,3 +75,12 @@ CREATE TABLE  venda(
 );
 
 
+CREATE TABLE  favoritos_usuario(
+    id_produto INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    tipo TEXT NOT NULL,
+    FOREIGN KEY(id_produto) REFERENCES produto(id_produto),
+    FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario)
+);
+
+
