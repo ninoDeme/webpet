@@ -53,7 +53,7 @@ CREATE table produto(
     id_animal INTEGER,
     id_categoria INTEGER,
     id_produto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    FOREIGN KEY(id_animal) REFERENCES ANIMAL(id_animal),
+    FOREIGN KEY(id_animal) REFERENCES animal(id_animal),
     FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
 );
 
@@ -63,3 +63,15 @@ CREATE TABLE imagens_produto(
     descricao TEXT,
     FOREIGN KEY(id_produto)REFERENCES produto(id_produto)
 );
+
+
+CREATE TABLE  venda(
+    id_venda INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id_produto INTEGER NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    data_horario TEXT NOT NULL,
+    FOREIGN KEY(id_produto) REFERENCES produto(id_produto),
+    FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario)
+);
+
+
