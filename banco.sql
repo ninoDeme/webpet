@@ -63,3 +63,8 @@ CREATE table produto(
     FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria),
     FOREIGN KEY(id_fabricante) REFERENCES fabricante(id_fabricante)
 );
+CREATE TABLE id_imagens(id_produto PRIMARY KEY,
+caminho TEXT NOT NULL,
+descricao TEXT,
+FOREGIN KEY(id_produto)REFERENCES produto(id_produto)
+);
