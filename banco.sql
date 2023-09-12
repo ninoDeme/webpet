@@ -1,11 +1,11 @@
-/* 
+/*
  Arquivo com as instrucoes para recriar o banco de dados
  Sempre ao rodar qualquer comando que cria ou modifica uma tabela salve ele aqui
- 
+
  exemplo:
- 
+
  -- criar tabela Usuario
- 
+
  CREATE TABLE usuario (
  id_usuario INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, -- id do usuario, numero nao nulo chave primaria que vai ser usado como identificador unico
  nome TEXT NOT NULL UNIQUE, -- nome do usuario, string nao nula unica
@@ -13,13 +13,13 @@
  email TEXT NOT NULL UNIQUE, -- email do usuario, string nao nula unica
  foto TEXT, -- foto de perfil do usuario, caminho da foto no servidor ex: C:/imagens/a23SDq2d2.png
  );
- 
+
  CREATE TABLE favoritos_usuario (
  id_usuario   INTEGER PRIMARY KEY,
  id_produto TEXT    NOT NULL,
  tipo      INTEGER NOT NULL,
- FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario) 
- FOREIGN KEY (id_produto) REFERENCES produto (id_produto) 
+ FOREIGN KEY (id_usuario) REFERENCES usuario (id_usuario)
+ FOREIGN KEY (id_produto) REFERENCES produto (id_produto)
  );
  */
 create table usuario(

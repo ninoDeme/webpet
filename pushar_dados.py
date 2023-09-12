@@ -14,5 +14,5 @@ for nome_planilha in planilhas:
     else:
         dados = pd.concat([dados, df], axis = 0)
 
-
-dados.to_csv('dados.csv')
+if type(dados) != type(None):
+    dados.to_csv('dados.csv')

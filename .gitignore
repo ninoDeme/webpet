@@ -1,3 +1,6 @@
 banco.db
 target
 *.class
+.classpath
+.project
+.settings
