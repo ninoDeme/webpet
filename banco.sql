@@ -50,20 +50,13 @@ CREATE table produto(
     peso DOUBLE,
     preco DOUBLE,
     quantidade INTEGER NOT NULL,
+    imagem TEXT,
     id_animal INTEGER,
     id_categoria INTEGER,
     id_produto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     FOREIGN KEY(id_animal) REFERENCES animal(id_animal),
     FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
 );
-
-CREATE TABLE imagens_produto(
-    id_produto integer NOT NULL,
-    caminho TEXT NOT NULL,
-    descricao TEXT,
-    FOREIGN KEY(id_produto)REFERENCES produto(id_produto)
-);
-
 
 CREATE TABLE  venda(
     id_venda INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
