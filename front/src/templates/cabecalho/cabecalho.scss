@@ -1,0 +1,15 @@
+@use 'src/styles/_cores.scss';
+
+#cabecalho {
+    background: #181747;
+    height: 7.5rem;
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    padding: 0.25rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.logo-branco {
+}
