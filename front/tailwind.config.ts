@@ -1,14 +1,16 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+import type { Config } from 'tailwindcss';
+
+const config: Config = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx,css,md,mdx,html,json,scss}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         fundo_escuro: '#181747',
-        fundo: '#FFF2E2',
+        fundo: '#fff2e2',
         fundo_alt: '#97c3b7',
         fundo1: '#9da7c8',
         fundo2: '#8292c1',
@@ -16,8 +18,9 @@ export default {
         texto: '#111111',
         texto_claro: '#97c3b7',
       }
-    },
+    }
   },
   plugins: [],
-}
+};
 
+export default config;
