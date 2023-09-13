@@ -1,16 +1,18 @@
-@use "src/styles/cores";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   font-family: Quicksand, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color: cores.$texto;
-  background-color: cores.$fundo;
+  @apply text-texto bg-fundo;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
 }

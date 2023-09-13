@@ -44,6 +44,7 @@ CREATE TABLE categoria(
 );
 
 CREATE table produto(
+    id_produto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
     descricao TEXT,
     detalhes TEXT,
@@ -53,7 +54,6 @@ CREATE table produto(
     imagem TEXT,
     id_animal INTEGER,
     id_categoria INTEGER,
-    id_produto INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     FOREIGN KEY(id_animal) REFERENCES animal(id_animal),
     FOREIGN KEY(id_categoria) REFERENCES categoria(id_categoria)
 );
