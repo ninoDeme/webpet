@@ -18,8 +18,9 @@ public class ProdutosHandler extends Rota {
         super("ProdutosHandler", conexao);
     }
 
+    // Declare um método "get" ou "post" dependendo do tipo de requisição 
     @Override
-    public RespostaHttp get(Map<String, String> _, HttpExchange pedido) {
+    public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
         int codigo;
         try {

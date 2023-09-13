@@ -1,23 +1,21 @@
 package com.wepet.rotas;
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import com.wepet.classes.RespostaHttp;
+import com.wepet.classes.Rota;
 
-public class versaoHandler implements HttpHandler {
+public class VersaoHandler extends Rota {
+    
+    public VersaoHandler() {
+        super("VersaoHandler");
+    }
 
     @Override
-    public void handle(HttpExchange pedido) throws IOException {
-        System.out.println((this.getClass().getSimpleName()) +": Requisição recebida - " + pedido.getRequestURI().toString());
-        
+    public RespostaHttp get(Map<String, String> _, HttpExchange pedido) {
         String response = "0.0.1";
-
-        pedido.sendResponseHeaders(200, response.length());
-        OutputStream os = pedido.getResponseBody();
-        os.write(response.toString().getBytes());
-        os.close();
+        return new RespostaHttp(200, response);
     }
     
 }

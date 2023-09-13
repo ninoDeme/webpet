@@ -28,6 +28,10 @@ public abstract class Rota implements HttpHandler {
         this.conexao = conexao;
     }
 
+    public Rota(String nome) {
+        this.nome = nome;
+    }
+
     public void handle(HttpExchange exchange) throws IOException {
         System.out.println(this.getClass().getSimpleName() + ": Requisição recebida - " + exchange.getRequestURI().toString());
         String metodo = exchange.getRequestMethod();

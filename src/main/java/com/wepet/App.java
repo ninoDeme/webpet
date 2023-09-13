@@ -8,7 +8,7 @@ import java.sql.*;
 import com.sun.net.httpserver.*;
 import com.wepet.rotas.ProdutosHandler;
 import com.wepet.rotas.HandlerPadrao;
-import com.wepet.rotas.versaoHandler;
+import com.wepet.rotas.VersaoHandler;
 
 public class App {
     public static void main(String[] args) throws IOException, SQLException {
@@ -29,7 +29,7 @@ public class App {
         // declara uma rota "/version" que pode ser acessada atravez de http://localhost:9000/version
         // ao acessar essa rota o metodo chamado handle da classe "versaoHandler" vai ser executado
         server.createContext("/", new HandlerPadrao());
-        server.createContext("/version", new versaoHandler());
+        server.createContext("/version", new VersaoHandler());
         server.createContext("/produtos", new ProdutosHandler(conexao));
 
 
