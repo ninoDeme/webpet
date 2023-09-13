@@ -57,7 +57,7 @@ produtosSQL = """INSERT INTO produto (
     id_categoria
 ) values """
 for p in produtos:
-    produtosSQL += f"('{p['nome']}', '{p['descricao']}', '{p['detalhes']}', '{p['peso']}', {p['preco']}, 0, {p['imagem']}, {p['animal']}, {p['categoria']}),"
+    produtosSQL += f"('{p['nome']}', '{p['descricao']}', '{p['detalhes']}', '{p['peso']}', {p['preco']}, 0, '{p['imagem']}', {p['animal']}, {p['categoria']}),"
 produtosSQL = produtosSQL.removesuffix(',') + ';'
 connection.execute(produtosSQL)
 connection.commit()

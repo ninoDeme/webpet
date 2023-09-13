@@ -1,51 +1,48 @@
 package com.wepet.rotas;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.wepet.classes.Produto;
+import com.wepet.classes.RespostaHttp;
+import com.wepet.classes.Rota;
 
-public class ProdutosHandler implements HttpHandler {
-
-    Connection conexao = null;
+public class ProdutosHandler extends Rota {
 
     public ProdutosHandler(Connection conexao) {
-        this.conexao = conexao;
+        super("ProdutosHandler", conexao);
     }
 
     @Override
-    public void handle(HttpExchange pedido) throws IOException {
-        System.out.println(this.getClass().getSimpleName() + ": Requisição recebida - " + pedido.getRequestURI().toString());
-
-        String response = null;
+    public RespostaHttp get(Map<String, String> _, HttpExchange pedido) {
+        String response;
         int codigo;
         try {
+            // Declarando novo Array dinámico para salvar os produtos
             ArrayList<Produto> produtos = new ArrayList<Produto>();
-            String sql = "select * from produtos";
+            
+            // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
+            String sql = "select * from produto";
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 
-            boolean condicao = true;
-            while (condicao) {
+            // Iterando por todos os produtos, inicializando o objeto produto e salvando no array produtos
+            for (boolean condicao = resultados.next(); condicao ; condicao = resultados.next()) {
                 String nome = resultados.getString("nome");
-                int id = resultados.getInt("id");
+                int id = resultados.getInt("id_produto");
                 String descricao = resultados.getString("descricao");
                 double preco = resultados.getDouble("preco");
 
                 produtos.add(new Produto(nome, descricao, preco, id));
-
-                condicao = resultados.next();
             }
 
+            // Criando JSON para retornar na resposta
             response = "{\"resultado\": [";
-
             for (int i = 0; i < produtos.size(); i++) {
                 response += produtos.get(i).toJSON();
                 if (i < produtos.size() - 1) {
@@ -53,6 +50,7 @@ public class ProdutosHandler implements HttpHandler {
                 }
             }
             response += "]}";
+
             codigo = 200;
 
         } catch (SQLException e) {
@@ -61,16 +59,6 @@ public class ProdutosHandler implements HttpHandler {
             e.printStackTrace();
         }
 
-        byte[] bytes = response.getBytes();
-        pedido.getResponseHeaders().set("content-type", "application/json");
-        pedido.sendResponseHeaders(codigo, bytes.length);
-        OutputStream os = pedido.getResponseBody();
-        try {
-            os.write(bytes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        os.close();
-
+        return new RespostaHttp(codigo, response, "application/json");
     }
 }
