@@ -1,11 +1,14 @@
 import logo from "/logo-branco.svg"
 import './cabecalho.css'
 import {Component} from 'solid-js';
+import {A} from '@solidjs/router';
 
 const Cabecalho: Component = () => {
     return (
         <header id="cabecalho" class='flex justify-between sticky py-4 px-12 bg-fundo_escuro h-20 md:h-24'>
-            <img class="" src={logo}></img>
+            <A href="/">
+                <img class="" src={logo}></img>
+            </A>
             <div class="flex w-1/2 my-2 bg-fundo2 items-center rounded px-3">
                 <input class='flex-1 bg-transparent outline-none'/>
                 <span class="material-symbols-outlined">search</span>
