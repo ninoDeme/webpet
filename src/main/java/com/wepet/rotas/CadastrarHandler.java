@@ -29,7 +29,7 @@ public class CadastrarHandler extends Rota {
             novo.telefone = b.getString("telefone");
         } catch (JSONException e) {
             e.printStackTrace();
-            return new RespostaHttp(400, "Body Invalido");
+            return new RespostaHttp().code(400).send("Body Invalido");
         }
         
         try {
@@ -42,10 +42,10 @@ public class CadastrarHandler extends Rota {
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
-            return new RespostaHttp(500, "Não foi possível concluir o cadastro");
+            return new RespostaHttp().code(500).send("Não foi possível concluir o cadastro");
         }
         
-        return new RespostaHttp(200, "Usuario Cadastrado Com Sucesso");
+        return new RespostaHttp("Usuario Cadastrado Com Sucesso");
     }
 
 }

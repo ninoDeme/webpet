@@ -11,6 +11,7 @@ import com.wepet.rotas.AnimaisHandler;
 import com.wepet.rotas.CadastrarHandler;
 import com.wepet.rotas.CategoriasHandler;
 import com.wepet.rotas.HandlerPadrao;
+import com.wepet.rotas.LoginHandler;
 import com.wepet.rotas.VersaoHandler;
 
 public class App {
@@ -38,6 +39,7 @@ public class App {
         server.createContext("/animal", new AnimaisHandler(conexao));
         server.createContext("/produto", new UnicoProdutoHandler(conexao));
         server.createContext("/cadastrar", new CadastrarHandler(conexao));
+        server.createContext("/login", new LoginHandler(conexao));
 
 
 

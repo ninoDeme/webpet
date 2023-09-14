@@ -74,6 +74,6 @@ public class ProdutosHandler extends Rota {
             e.printStackTrace();
         }
 
-        return new RespostaHttp(codigo, response, "application/json");
+        return new RespostaHttp(response).tipo("application/json");
     }
 }
