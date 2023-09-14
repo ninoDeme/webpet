@@ -6,7 +6,10 @@ import java.net.InetSocketAddress;
 import java.sql.*;
 
 import com.sun.net.httpserver.*;
-import com.wepet.rotas.ProdutosHandler;
+import com.wepet.rotas.UnicoProdutoHandler;
+import com.wepet.classes.Categoria;
+import com.wepet.rotas.AnimaisHandler;
+import com.wepet.rotas.CategoriasHandler;
 import com.wepet.rotas.HandlerPadrao;
 import com.wepet.rotas.VersaoHandler;
 
@@ -30,7 +33,11 @@ public class App {
         // ao acessar essa rota o metodo chamado handle da classe "versaoHandler" vai ser executado
         server.createContext("/", new HandlerPadrao());
         server.createContext("/version", new VersaoHandler());
-        server.createContext("/produtos", new ProdutosHandler(conexao));
+        server.createContext("/produtos", new UnicoProdutoHandler(conexao));
+        server.createContext("/categorias", new CategoriasHandler(conexao));
+        server.createContext("/animal", new AnimaisHandler(conexao));
+        server.createContext("/produto", new UnicoProdutoHandler(conexao));
+
 
 
         server.setExecutor(null);
