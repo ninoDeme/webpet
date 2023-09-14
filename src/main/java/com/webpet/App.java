@@ -1,4 +1,4 @@
-package com.wepet;
+package com.webpet;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -6,9 +6,9 @@ import java.net.InetSocketAddress;
 import java.sql.*;
 
 import com.sun.net.httpserver.*;
-import com.wepet.rotas.ProdutosHandler;
-import com.wepet.rotas.HandlerPadrao;
-import com.wepet.rotas.VersaoHandler;
+import com.webpet.rotas.ProdutosHandler;
+import com.webpet.rotas.HandlerPadrao;
+import com.webpet.rotas.VersaoHandler;
 
 public class App {
     public static void main(String[] args) throws IOException, SQLException {

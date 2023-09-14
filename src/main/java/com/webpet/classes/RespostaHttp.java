@@ -1,4 +1,4 @@
-package com.wepet.classes;
+package com.webpet.classes;
 
 import java.nio.charset.StandardCharsets;
 

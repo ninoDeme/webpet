@@ -1,4 +1,4 @@
-package com.wepet.classes;
+package com.webpet.classes;
 
 public class Produto {
     int id;

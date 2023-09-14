@@ -1,4 +1,4 @@
-package com.wepet.classes;
+package com.webpet.classes;
 
 public class Usuario {
     int id;

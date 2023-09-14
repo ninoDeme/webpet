@@ -1,4 +1,4 @@
-package com.wepet.rotas;
+package com.webpet.rotas;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.wepet.classes.Produto;
-import com.wepet.classes.RespostaHttp;
-import com.wepet.classes.Rota;
+import com.webpet.classes.Produto;
+import com.webpet.classes.RespostaHttp;
+import com.webpet.classes.Rota;
 
 public class ProdutosHandler extends Rota {
 

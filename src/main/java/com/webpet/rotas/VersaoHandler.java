@@ -1,10 +1,10 @@
-package com.wepet.rotas;
+package com.webpet.rotas;
 
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.wepet.classes.RespostaHttp;
-import com.wepet.classes.Rota;
+import com.webpet.classes.RespostaHttp;
+import com.webpet.classes.Rota;
 
 public class VersaoHandler extends Rota {
     
