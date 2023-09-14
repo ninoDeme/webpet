@@ -8,44 +8,46 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.wepet.classes.Animal;
 import com.wepet.classes.Produto;
 import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
 
-public class ProdutosHandler extends Rota {
-    
-    public ProdutosHandler(Connection conexao) {
-        super("ProdutosHandler", conexao);
+public class AnimaisHandler extends Rota {
+
+    public AnimaisHandler(Connection conexao) {
+        super("AnimaisHandler", conexao);
     }
+
+    // Declare um método "get" ou "post" dependendo do tipo de requisição 
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
         int codigo;
         try {
             // Declarando novo Array dinámico para salvar os produtos
-            ArrayList<Produto> produtos = new ArrayList<Produto>();
+            ArrayList<Animal> animal = new ArrayList<Animal>();
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
-            String sql = "select * from produto";
+            String sql = "select * from animal";
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 
             // Iterando por todos os produtos, inicializando o objeto produto e salvando no array produtos
             for (boolean condicao = resultados.next(); condicao ; condicao = resultados.next()) {
                 String nome = resultados.getString("nome");
-                int id = resultados.getInt("id_produto");
+                int id_animal = resultados.getInt("id_animal");
                 String descricao = resultados.getString("descricao");
-                double preco = resultados.getDouble("preco");
-                int quantidade= resultados.getInt("Quantidade");
+                String imagem = resultados.getString("imagem");
 
-                produtos.add(new Produto(nome, descricao, preco, id, quantidade));
+                animal.add(new Animal(nome, descricao, imagem, id_animal));
             }
 
             // Criando JSON para retornar na resposta
             response = "{\"resultado\": [";
-            for (int i = 0; i < produtos.size(); i++) {
-                response += produtos.get(i).toJSON();
-                if (i < produtos.size() - 1) {
+            for (int i = 0; i < animal.size(); i++) {
+                response += animal.get(i).toJSON();
+                if (i < animal.size() - 1) {
                     response += ",";
                 }
             }
@@ -54,7 +56,7 @@ public class ProdutosHandler extends Rota {
             codigo = 200;
 
         } catch (SQLException e) {
-            response = "Falha ao buscar os produtos";
+            response = "Falha ao inserir produto";
             codigo = 500;
             e.printStackTrace();
         }

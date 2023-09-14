@@ -1,25 +1,22 @@
 package com.wepet.classes;
 
-public class Produto {
+public class Animal {
     int id;
     String nome;
     String descricao;
-    double preco;
-    int quantidade;
+    String imagem;
 
-    public Produto(String nome, String descricao, double preco, int id, int quantidade) {
+    public Animal(String nome, String descricao,String imagem, int id) {
         this.nome = nome;
         this.descricao = descricao;
-        this.preco = preco;
+        this.imagem = imagem;
         this.id = id;
-        this.quantidade=quantidade;
     }
 
-    public Produto(String nome, String descricao, double preco,int quantidade) {
+    public Animal(String nome, String descricao, String imagem) {
         this.nome = nome;
         this.descricao = descricao;
-        this.preco = preco;
-        this.quantidade=quantidade;
+        this.imagem = imagem;
     }
 
     public String toJSON() {
@@ -28,8 +25,7 @@ public class Produto {
         resultado += "\"nome\": \"" + this.nome + "\",";
         resultado += "\"descricao\": \"" + this.descricao + "\",";
         resultado += "\"id\": " + Integer.toString(this.id) + ",";
-        resultado += "\"preco\": " + Double.toString(this.preco);
-        resultado += "\"quantidade\": " + Integer.toString(this.quantidade);
+        resultado += "\"imagem\": " + this.imagem;
         
         resultado += "}";
 
