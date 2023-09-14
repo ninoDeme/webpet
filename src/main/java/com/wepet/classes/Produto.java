@@ -29,6 +29,7 @@ public class Produto {
         resultado += "\"descricao\": \"" + this.descricao + "\",";
         resultado += "\"id\": " + Integer.toString(this.id) + ",";
         resultado += "\"preco\": " + Double.toString(this.preco);
+        resultado += "\"quantidade\": " + Integer.toString(this.quantidade);
         
         resultado += "}";
 
