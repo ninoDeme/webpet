@@ -7,8 +7,8 @@ import java.sql.*;
 
 import com.sun.net.httpserver.*;
 import com.wepet.rotas.UnicoProdutoHandler;
-import com.wepet.classes.Categoria;
 import com.wepet.rotas.AnimaisHandler;
+import com.wepet.rotas.CadastrarHandler;
 import com.wepet.rotas.CategoriasHandler;
 import com.wepet.rotas.HandlerPadrao;
 import com.wepet.rotas.VersaoHandler;
@@ -37,6 +37,7 @@ public class App {
         server.createContext("/categorias", new CategoriasHandler(conexao));
         server.createContext("/animal", new AnimaisHandler(conexao));
         server.createContext("/produto", new UnicoProdutoHandler(conexao));
+        server.createContext("/cadastrar", new CadastrarHandler(conexao));
 
 
 

@@ -1,9 +1,9 @@
 package com.wepet.classes;
 
 public class Usuario {
-    int id;
-    String nome;
-    String email;
-    String senha;
-    String telefone;
+    public int id;
+    public String nome;
+    public String email;
+    public String senha;
+    public String telefone;
 }

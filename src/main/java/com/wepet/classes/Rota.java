@@ -40,7 +40,7 @@ public abstract class Rota implements HttpHandler {
         OutputStream os = exchange.getResponseBody();
         try {
             if (metodo.equalsIgnoreCase("POST")) {
-                response = post(exchange.getRequestBody().readAllBytes().toString(), exchange);
+                response = post(new String(exchange.getRequestBody().readAllBytes()), exchange);
             } else {
                 Map<String, String> query = queryToMap(exchange.getRequestURI().getQuery());
                 response = get(query, exchange);
