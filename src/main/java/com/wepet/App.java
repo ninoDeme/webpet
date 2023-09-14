@@ -36,6 +36,7 @@ public class App {
         server.createContext("/produtos", new UnicoProdutoHandler(conexao));
         server.createContext("/categorias", new CategoriasHandler(conexao));
         server.createContext("/animal", new AnimaisHandler(conexao));
+        server.createContext("/produto", new UnicoProdutoHandler(conexao));
 
 
 

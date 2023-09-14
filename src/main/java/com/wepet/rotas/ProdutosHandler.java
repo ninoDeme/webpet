@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.wepet.classes.Produto;
+import com.wepet.classes.ProdutoSimples;
 import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
 
@@ -23,7 +24,7 @@ public class ProdutosHandler extends Rota {
         int codigo;
         try {
             // Declarando novo Array dinámico para salvar os produtos
-            ArrayList<Produto> produtos = new ArrayList<Produto>();
+            ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
             String sql = "select * from produto";
@@ -38,7 +39,7 @@ public class ProdutosHandler extends Rota {
                 double preco = resultados.getDouble("preco");
                 int quantidade= resultados.getInt("Quantidade");
 
-                produtos.add(new Produto(nome, descricao, preco, id, quantidade));
+                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade));
             }
 
             // Criando JSON para retornar na resposta
