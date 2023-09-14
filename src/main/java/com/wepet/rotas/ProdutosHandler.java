@@ -13,12 +13,10 @@ import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
 
 public class ProdutosHandler extends Rota {
-
+    
     public ProdutosHandler(Connection conexao) {
         super("ProdutosHandler", conexao);
     }
-
-    // Declare um método "get" ou "post" dependendo do tipo de requisição 
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
@@ -38,8 +36,9 @@ public class ProdutosHandler extends Rota {
                 int id = resultados.getInt("id_produto");
                 String descricao = resultados.getString("descricao");
                 double preco = resultados.getDouble("preco");
+                int quantidade= resultados.getInt("Quantidade");
 
-                produtos.add(new Produto(nome, descricao, preco, id));
+                produtos.add(new Produto(nome, descricao, preco, id, quantidade));
             }
 
             // Criando JSON para retornar na resposta
@@ -55,7 +54,7 @@ public class ProdutosHandler extends Rota {
             codigo = 200;
 
         } catch (SQLException e) {
-            response = "Falha ao inserir produto";
+            response = "Falha ao buscar os produtos";
             codigo = 500;
             e.printStackTrace();
         }
