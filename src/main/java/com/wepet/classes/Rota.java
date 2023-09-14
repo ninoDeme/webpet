@@ -3,7 +3,6 @@ package com.wepet.classes;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;

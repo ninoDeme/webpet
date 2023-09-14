@@ -3,13 +3,11 @@ package com.wepet.rotas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.sun.net.httpserver.HttpExchange;
 import com.wepet.classes.RespostaHttp;

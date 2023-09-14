@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.wepet.classes.Produto;
 import com.wepet.classes.ProdutoSimples;
 import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
@@ -22,7 +21,6 @@ public class ProdutosHandler extends Rota {
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
-        int codigo;
         try {
             // Declarando novo Array dinámico para salvar os produtos
             ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
@@ -66,14 +64,12 @@ public class ProdutosHandler extends Rota {
             }
             response += "]}";
 
-            codigo = 200;
-
+            return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {
             response = "Falha ao buscar os produtos";
-            codigo = 500;
             e.printStackTrace();
+            return new RespostaHttp(response).code(500);
         }
 
-        return new RespostaHttp(response).tipo("application/json");
     }
 }

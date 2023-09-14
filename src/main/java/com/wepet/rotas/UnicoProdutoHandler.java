@@ -4,12 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.wepet.classes.Produto;
-import com.wepet.classes.ProdutoSimples;
 import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
 
@@ -23,7 +21,6 @@ public class UnicoProdutoHandler extends Rota {
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
-        int codigo;
         try {
             // Declarando novo Array dinámico para salvar os produtos
 
@@ -57,14 +54,12 @@ public class UnicoProdutoHandler extends Rota {
 
             response += "]}";
 
-            codigo = 200;
-
+            return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {
             response = "Falha ao inserir produto";
-            codigo = 500;
             e.printStackTrace();
+            return new RespostaHttp(response).code(500);
         }
 
-        return new RespostaHttp(response).tipo("application/json");
     }
 }
