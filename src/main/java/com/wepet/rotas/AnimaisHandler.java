@@ -9,7 +9,6 @@ import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.wepet.classes.Animal;
-import com.wepet.classes.Produto;
 import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
 

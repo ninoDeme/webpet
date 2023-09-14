@@ -14,10 +14,11 @@ import com.wepet.classes.RespostaHttp;
 import com.wepet.classes.Rota;
 
 public class ProdutosHandler extends Rota {
-    
+
     public ProdutosHandler(Connection conexao) {
         super("ProdutosHandler", conexao);
     }
+
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
@@ -28,16 +29,29 @@ public class ProdutosHandler extends Rota {
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
             String sql = "select * from produto";
+            // Executando sql para retornar todos os produtos e salvando o resultado na
+            // variável "resultados"
+            if (query.get("categoria") != null) {
+                sql += " where id_categoria = " + query.get("categoria");
+                if (query.get("animal") != null) {
+                    sql += " and id_animal = " + query.get("animal");
+                }
+            }
+            if (query.get("animal") != null) {
+                sql += " where id_animal = " + query.get("animal");
+            }
+
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 
-            // Iterando por todos os produtos, inicializando o objeto produto e salvando no array produtos
-            for (boolean condicao = resultados.next(); condicao ; condicao = resultados.next()) {
+            // Iterando por todos os produtos, inicializando o objeto produto e salvando no
+            // array produtos
+            for (boolean condicao = resultados.next(); condicao; condicao = resultados.next()) {
                 String nome = resultados.getString("nome");
                 int id = resultados.getInt("id_produto");
                 String descricao = resultados.getString("descricao");
                 double preco = resultados.getDouble("preco");
-                int quantidade= resultados.getInt("Quantidade");
+                int quantidade = resultados.getInt("Quantidade");
 
                 produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade));
             }
