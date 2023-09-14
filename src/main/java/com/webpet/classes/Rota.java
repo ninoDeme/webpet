@@ -3,8 +3,14 @@ package com.webpet.classes;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Connection;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.json.JSONObject;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -21,7 +27,7 @@ public abstract class Rota implements HttpHandler {
     
     public String nome;
     public Connection conexao;
-    public String secret = "ChaveSecreta";
+    static public String secret = "ChaveSecreta";
     
     public Rota(String nome, Connection conexao) {
         this.nome = nome;
@@ -40,13 +46,16 @@ public abstract class Rota implements HttpHandler {
         OutputStream os = exchange.getResponseBody();
         try {
             if (metodo.equalsIgnoreCase("POST")) {
-                response = post(exchange.getRequestBody().readAllBytes().toString(), exchange);
+                response = post(new String(exchange.getRequestBody().readAllBytes()), exchange);
             } else {
                 Map<String, String> query = queryToMap(exchange.getRequestURI().getQuery());
                 response = get(query, exchange);
             }
 
-            exchange.getResponseHeaders().set("content-type", "application/json");
+            if (response.tipo != null) {
+                exchange.getResponseHeaders().set("content-type", response.tipo);
+            }
+            exchange.getResponseHeaders().putAll(response.headersMap);;
             exchange.sendResponseHeaders(response.codigo, response.mensagem.length);
             try {
                 os.write(response.mensagem);
@@ -64,29 +73,54 @@ public abstract class Rota implements HttpHandler {
     }
 
     public RespostaHttp get(Map<String, String> query, HttpExchange exchange) {
-        return new RespostaHttp(404, "Rota Invalida ou Não Implementada");
+        return new RespostaHttp().code(404).send("Rota Invalida ou Não Implementada");
     }
 
     public RespostaHttp post(String body, HttpExchange exchange) {
-        return new RespostaHttp(404, "Rota Invalida ou Não Implementada");
+        return new RespostaHttp().code(404).send("Rota Invalida ou Não Implementada");
     }
     
     public Usuario Auth(HttpExchange exchange) {
-        String token = exchange.getRequestHeaders().getFirst("Auth");
+        List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+
+        Pattern pattern = Pattern.compile("Auth=(.+?)(;|$)");
+        
+        String jwt = null;
+        for (String cookie : cookies) {
+            Matcher matcher = pattern.matcher(cookie);
+            if (matcher.find()) {
+                jwt = matcher.group(1);
+                break;
+            }
+        }
+        if (jwt == null) {
+            throw new Error("Não Autorizado");
+        }
         DecodedJWT decodedJWT;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(this.secret);
+            Algorithm algorithm = Algorithm.HMAC256(Rota.secret);
             JWTVerifier verifier = JWT.require(algorithm)
                 // specify an specific claim validations
-                .withIssuer("auth0")
+                .withIssuer("WebPet")
                 // reusable verifier instance
                 .build();
                 
-            decodedJWT = verifier.verify(token);
-            String id = decodedJWT.getPayload();
-            System.out.println(id);
-            throw new Error();
-        } catch (JWTVerificationException exception){
+            decodedJWT = verifier.verify(jwt);
+
+            String codificado = decodedJWT.getPayload();
+            String jsonString = new String(Base64.getDecoder().decode(codificado));
+            JSONObject json = new JSONObject(jsonString);
+
+            Usuario user = new Usuario();
+            
+            user.id = json.getInt("id");
+            user.email = json.getString("email");
+            user.nome = json.getString("nome");
+            user.senha = json.getString("senha");
+            user.telefone = json.getString("telefone");
+            
+            return user;
+        } catch (JWTVerificationException exception) {
             throw new Error("Não Autorizado");
         }
     }

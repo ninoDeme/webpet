@@ -8,37 +8,27 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.webpet.classes.ProdutoSimples;
+import com.webpet.classes.Categoria;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
 
-public class ProdutosHandler extends Rota {
+public class CategoriasHandler extends Rota {
 
-    public ProdutosHandler(Connection conexao) {
-        super("ProdutosHandler", conexao);
+    public CategoriasHandler(Connection conexao) {
+        super("CategoriasHandler", conexao);
     }
 
+    // Declare um método "get" ou "post" dependendo do tipo de requisição
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
         try {
             // Declarando novo Array dinámico para salvar os produtos
-            ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
-            
-            // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
-            String sql = "select * from produto";
+            ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+
             // Executando sql para retornar todos os produtos e salvando o resultado na
             // variável "resultados"
-            if (query.get("categoria") != null) {
-                sql += " where id_categoria = " + query.get("categoria");
-                if (query.get("animal") != null) {
-                    sql += " and id_animal = " + query.get("animal");
-                }
-            }
-            if (query.get("animal") != null) {
-                sql += " where id_animal = " + query.get("animal");
-            }
-
+            String sql = "select * from categoria";
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 
@@ -46,19 +36,17 @@ public class ProdutosHandler extends Rota {
             // array produtos
             for (boolean condicao = resultados.next(); condicao; condicao = resultados.next()) {
                 String nome = resultados.getString("nome");
-                int id = resultados.getInt("id_produto");
-                String descricao = resultados.getString("descricao");
-                double preco = resultados.getDouble("preco");
-                int quantidade = resultados.getInt("Quantidade");
+                int id = resultados.getInt("id_categoria");
+                String imagem = resultados.getString("imagem");
 
-                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade));
+                categorias.add(new Categoria(nome, imagem, id));
             }
 
             // Criando JSON para retornar na resposta
             response = "{\"resultado\": [";
-            for (int i = 0; i < produtos.size(); i++) {
-                response += produtos.get(i).toJSON();
-                if (i < produtos.size() - 1) {
+            for (int i = 0; i < categorias.size(); i++) {
+                response += categorias.get(i).toJSON();
+                if (i < categorias.size() - 1) {
                     response += ",";
                 }
             }
@@ -66,10 +54,9 @@ public class ProdutosHandler extends Rota {
 
             return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {
-            response = "Falha ao buscar os produtos";
+            response = "Falha ao inserir categoria";
             e.printStackTrace();
             return new RespostaHttp(response).code(500);
         }
-
     }
 }

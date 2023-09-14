@@ -63,6 +63,8 @@ CREATE TABLE  venda(
     id_produto INTEGER NOT NULL,
     id_usuario INTEGER NOT NULL,
     data_horario TEXT NOT NULL,
+    tempo_entrega TEXT NOT NULL,
+    cep TEXT NOT NULL,
     FOREIGN KEY(id_produto) REFERENCES produto(id_produto),
     FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario)
 );
