@@ -29,22 +29,31 @@ public class ProdutosHandler extends Rota {
             String sql = "select id_produto, nome, descricao, preco, quantidade, imagem from produto";
             // Executando sql para retornar todos os produtos e salvando o resultado na
             // variável "resultados"
+            String where = "";
             if (query.get("categoria") != null) {
-                sql += " where id_categoria = " + query.get("categoria");
+                where += " where id_categoria = " + query.get("categoria");
                 if (query.get("animal") != null) {
-                    sql += " and id_animal = " + query.get("animal");
+                    where += " and id_animal = " + query.get("animal");
                 }
             }
             if (query.get("animal") != null) {
-                sql += " where id_animal = " + query.get("animal");
+                where += " where id_animal = " + query.get("animal");
             }
 
+            sql += where;
+            if (query.get("random") != null) {
+                sql += " order by random()";
+            }
             if (query.get("limit") != null) {
-                sql += " order by random() limit " + query.get("limit");
+                sql += " limit " + query.get("limit");
+            }
+            if (query.get("limit") != null && query.get("pagina") != null) {
+                sql += " offset " + Integer.toString((Integer.parseInt(query.get("pagina"))-1) * Integer.parseInt(query.get("limit")));
             }
 
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
+
 
             // Iterando por todos os produtos, inicializando o objeto produto e salvando no
             // array produtos
@@ -66,7 +75,15 @@ public class ProdutosHandler extends Rota {
                     response += ",";
                 }
             }
-            response += "]}";
+            response += "]";
+            if (query.get("limit") != null) {
+                ps = this.conexao.prepareStatement("select count(*) as total from produto" + where);
+                resultados = ps.executeQuery();
+                resultados.next();
+                response += ", \"total\": " + Integer.toString(resultados.getInt("total"));
+            }
+
+            response += "}";
 
             return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {

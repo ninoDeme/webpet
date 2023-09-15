@@ -28,6 +28,9 @@ public class AnimaisHandler extends Rota {
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
             String sql = "select * from animal";
+            if (query.get("limit") != null) {
+                sql += " order by random() limit " + query.get("limit");
+            }
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 

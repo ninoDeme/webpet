@@ -8,11 +8,11 @@ const ProdutoPage: Component = () => {
     const [cepResult, setCepRes] = createSignal<BuscaCepResultado>();
     const params = useParams();
 
-    const emptyCepIf = function() {
+    const emptyCepIf = function () {
         if (typeof cepResult() === 'string') {
             setCepRes(undefined);
         }
-    }
+    };
     const buscarCep = async function () {
         try {
             setCepRes(undefined);
@@ -45,7 +45,7 @@ const ProdutoPage: Component = () => {
         });
     });
     return (
-        <div class="grid grid-cols-3 gap-10 mx-20 mt-20">
+        <div class="grid md:grid-cols-3 gap-10 mx-8 md:mx-20 my-20">
             <div class="bg-white w-full px-4 py-8 h-auto rounded overflow-hidden mb-5 border border-fundo_alt">
                 {produto()
                     ? <img class="aspect-square object-contain w-full" src={`/produtos/${produto().id}.webp`} />
@@ -76,17 +76,17 @@ const ProdutoPage: Component = () => {
                     <span class="text-3xl font-bold mb-1">R$ {produto()?.preco.toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2})}</span>
                     <span class="text-lg">À vista no cartão ou pix ou até 12x R$ {(produto()?.preco / 12 * 1.1).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2})} no cartão</span>
 
-                    <div class="p-3 bg-fundo2 rounded flex mt-5 mb-3 items-center" classList={{ ['shake']: typeof cepResult() === "string" }}>
-                        <input class="outline-none bg-transparent placeholder:text-texto" placeholder="Digite Seu CEP..." id="busca-cep" onKeyPress={(e) => e.key === "Enter" && buscarCep()} onInput={emptyCepIf}/>
+                    <div class="p-3 bg-fundo2 rounded flex mt-5 mx-auto items-center w-10/12" classList={{['shake']: typeof cepResult() === "string"}}>
+                        <input class="outline-none bg-transparent placeholder:text-texto flex-1 min-w-0" placeholder="Digite Seu CEP..." id="busca-cep" onKeyPress={(e) => e.key === "Enter" && buscarCep()} onInput={emptyCepIf} />
                         <button class="material-symbols-outlined" onClick={buscarCep}>
-                             keyboard_arrow_right 
+                            keyboard_arrow_right
                         </button>
                     </div>
                     <Show when={cepResult() != null && typeof cepResult() === 'object'} fallback={(<span class="text-red-600 font-bold">{cepResult() as string || ''}</span>)}>
                         {/*  @ts-ignore */}
                         <span>{cepResult()?.state} - {cepResult()?.city} - {cepResult()?.district}</span>
                     </Show>
-                    
+
                     <div class="flex-1"></div>
                     <button class="py-3 px-8 mb-5 bg-fundo2 rounded text-center mt-3 mx-auto">Comprar</button>
                 </div>
