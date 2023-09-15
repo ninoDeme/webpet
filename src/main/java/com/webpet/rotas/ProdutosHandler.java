@@ -26,7 +26,7 @@ public class ProdutosHandler extends Rota {
             ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
-            String sql = "select * from produto";
+            String sql = "select id_produto, nome, descricao, preco, quantidade, imagem from produto";
             // Executando sql para retornar todos os produtos e salvando o resultado na
             // variável "resultados"
             if (query.get("categoria") != null) {
@@ -39,6 +39,10 @@ public class ProdutosHandler extends Rota {
                 sql += " where id_animal = " + query.get("animal");
             }
 
+            if (query.get("limit") != null) {
+                sql += " limit " + query.get("limit");
+            }
+
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 
@@ -49,9 +53,10 @@ public class ProdutosHandler extends Rota {
                 int id = resultados.getInt("id_produto");
                 String descricao = resultados.getString("descricao");
                 double preco = resultados.getDouble("preco");
-                int quantidade = resultados.getInt("Quantidade");
+                int quantidade = resultados.getInt("quantidade");
+                String imagem = resultados.getString("imagem");
 
-                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade));
+                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade, imagem));
             }
 
             // Criando JSON para retornar na resposta
