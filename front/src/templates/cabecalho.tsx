@@ -18,7 +18,7 @@ const Cabecalho: Component = () => {
                 <span class="hidden md:block">Minha Conta</span>
             </button>
         </header>
-        <nav class="flex items-center py-1 px-12 bg-fundo1 h-12 md:h-14 gap-3 mt-1">
+        <nav class="flex items-center py-1 px-12 bg-fundo1 h-12 md:h-14 gap-3 mt-2">
             <A href="/">
               <button class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-3">
                   <span class="hidden md:block">Categorias</span>
