@@ -48,7 +48,7 @@ CREATE table produto(
     nome TEXT NOT NULL,
     descricao TEXT,
     detalhes TEXT,
-    peso DOUBLE,
+    peso TEXT,
     preco DOUBLE,
     quantidade INTEGER NOT NULL,
     imagem TEXT,

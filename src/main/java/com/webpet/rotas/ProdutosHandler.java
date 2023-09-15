@@ -51,12 +51,11 @@ public class ProdutosHandler extends Rota {
             for (boolean condicao = resultados.next(); condicao; condicao = resultados.next()) {
                 String nome = resultados.getString("nome");
                 int id = resultados.getInt("id_produto");
-                String descricao = resultados.getString("descricao");
                 double preco = resultados.getDouble("preco");
                 int quantidade = resultados.getInt("quantidade");
                 String imagem = resultados.getString("imagem");
 
-                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade, imagem));
+                produtos.add(new ProdutoSimples(nome, preco, id, quantidade, imagem));
             }
 
             // Criando JSON para retornar na resposta

@@ -1,5 +1,7 @@
 package com.webpet.classes;
 
+import org.json.JSONObject;
+
 public class Categoria {
     int id;
     String nome;
@@ -18,16 +20,13 @@ public class Categoria {
     }
 
     public String toJSON() {
-        String resultado = "{";
+        JSONObject resultado = new JSONObject();
 
-        resultado += "\"nome\": \"" + this.nome + "\",";
-        resultado += "\"imagem\": \"" + this.imagem + "\",";
-        resultado += "\"id\": " + Integer.toString(this.id);
-    
-        
-        resultado += "}";
+        resultado.put("nome", this.nome );
+        resultado.put("id", this.id);
+        resultado.put("imagem", this.imagem);
 
-        return resultado;
+        return resultado.toString();
     }
 
 }

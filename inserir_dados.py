@@ -12,12 +12,12 @@ df = pd.read_csv('dados.csv')
 categorias.update(set(df['Produtos'].to_list()))
 animais.update(set(df['Animais'].to_list()))
 for _, produto in df.iterrows():
-    index = 0
+    index = 1
     for c in categorias:
         if c == produto["Produtos"]:
             catP = index
         index += 1
-    index = 0
+    index = 1
     for a in animais:
         if a == produto['Animais']:
             aniP = index

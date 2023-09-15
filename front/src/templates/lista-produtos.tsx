@@ -5,7 +5,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import { register } from 'swiper/element/bundle';
-import { ProdutoSimplesI } from "../models/ProdutoSimples";
+import { ProdutoSimplesI } from "../models/Produto";
 register();
 
 const ListaProdutos: Component<{ produtos: ProdutoSimplesI[], titulo: string }> = (props) => {

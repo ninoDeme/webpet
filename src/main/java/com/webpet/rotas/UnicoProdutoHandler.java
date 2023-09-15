@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.webpet.classes.Animal;
+import com.webpet.classes.Categoria;
 import com.webpet.classes.Produto;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
@@ -32,6 +34,7 @@ public class UnicoProdutoHandler extends Rota {
 
             // Iterando por todos os produtos, inicializando o objeto produto e salvando no
             // array produtos
+            resultados.next();
             String nome = resultados.getString("nome");
             String descricao = resultados.getString("descricao");
             double preco = resultados.getDouble("preco");
@@ -43,16 +46,39 @@ public class UnicoProdutoHandler extends Rota {
             Double peso = resultados.getDouble("peso");
             String detalhes = resultados.getString("detalhes");
 
+            sql = "select * from categoria where id_categoria = ?";
+            ps = this.conexao.prepareStatement(sql);
+            ps.setInt(1, id_categoria);
+            resultados= ps.executeQuery();
 
-            Produto unicoProduto = new Produto(nome, descricao, preco, id, quantidade, id_categoria, id_animal, imagem, peso,detalhes);
+            resultados.next();
+            String nomeC = resultados.getString("nome");
+            int idC = resultados.getInt("id_categoria");
+            String imagemC = resultados.getString("imagem");
+
+            Categoria categoria = new Categoria(nomeC, imagemC, idC);
+
+            sql = "select * from animal where id_animal = ?";
+            ps = this.conexao.prepareStatement(sql);
+            ps.setInt(1, id_animal);
+            resultados = ps.executeQuery();
+
+            resultados.next();
+            String nomeA = resultados.getString("nome");
+            String descA = resultados.getString("descricao");
+            int idA = resultados.getInt("id_animal");
+            String imagemA = resultados.getString("imagem");
+
+            Animal animal = new Animal(nomeA, descA, imagemA, idA);
+
+            Produto unicoProduto = new Produto(nome, descricao, preco, id, quantidade, categoria, animal, imagem, peso,detalhes);
 
             // Criando JSON para retornar na resposta
-            response = "{\"resultado\": [";
+            response = "{\"resultado\": ";
 
-            response += unicoProduto.toJSON();
+            response += unicoProduto.toJSON(true);
             
-
-            response += "]}";
+            response += "}";
 
             return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {
@@ -60,6 +86,5 @@ public class UnicoProdutoHandler extends Rota {
             e.printStackTrace();
             return new RespostaHttp(response).code(500);
         }
-
     }
 }
