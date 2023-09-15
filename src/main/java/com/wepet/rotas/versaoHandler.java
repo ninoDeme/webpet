@@ -13,7 +13,7 @@ public class VersaoHandler extends Rota {
     }
 
     @Override
-    public RespostaHttp get(Map<String, String> _, HttpExchange pedido) {
+    public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response = "0.0.1";
         return new RespostaHttp(200, response);
     }

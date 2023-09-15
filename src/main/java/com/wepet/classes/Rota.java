@@ -46,7 +46,9 @@ public abstract class Rota implements HttpHandler {
                 response = get(query, exchange);
             }
 
-            exchange.getResponseHeaders().set("content-type", "application/json");
+            if (response.tipo != null) {
+                exchange.getResponseHeaders().set("content-type", response.tipo);
+            }
             exchange.sendResponseHeaders(response.codigo, response.mensagem.length);
             try {
                 os.write(response.mensagem);
