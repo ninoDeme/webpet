@@ -11,6 +11,7 @@ export interface ProdutoSimplesI {
 
 export interface ProdutoI extends ProdutoSimplesI {
     detalhes: string;
+    descricao: string;
     peso: string;
     animal: AnimalI;
     categoria: CategoriaI;

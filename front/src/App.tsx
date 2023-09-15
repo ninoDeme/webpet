@@ -3,17 +3,17 @@ import Cabecalho from './templates/cabecalho'
 import './App.css'
 import { Route, Router, Routes } from '@solidjs/router';
 import Home from './pages/home';
+import ProdutoPage from './pages/produto';
 
 const App: Component = () => {
   return (
     <>
       <Cabecalho></Cabecalho>
-      <Router>
-          <Routes>
-            <Route path="/" component={Home} /> 
-            <Route path="/home" component={Home} /> 
-          </Routes>
-      </Router>
+        <Routes>
+          <Route path="/home" component={Home} /> 
+          <Route path="/item/:id" component={ProdutoPage}/> 
+          <Route path="/" component={Home} /> 
+        </Routes>
     </>
   );
 };
