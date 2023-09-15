@@ -49,7 +49,7 @@ public class LoginHandler extends Rota {
             Algorithm algorithm = Algorithm.HMAC256(Rota.secret);
             String token = JWT.create().withIssuer("WebPet").withPayload(user.toJSON()).sign(algorithm);
 
-            return new RespostaHttp(Integer.toString(user.id)).setHeader("Set-Cookie", "Auth=" + token);
+            return new RespostaHttp(token).setHeader("Set-Cookie", "Auth=" + token);
         } catch (Exception e) {
             e.printStackTrace();
             return new RespostaHttp().code(500).send("Erro: Usuario ou Senha Incorretos");

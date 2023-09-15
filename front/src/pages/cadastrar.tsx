@@ -1,10 +1,10 @@
-import {Navigate, useNavigate} from '@solidjs/router';
-import {Component, JSX, createSignal} from "solid-js";
+import { Navigate, useNavigate } from '@solidjs/router';
+import { Component, JSX, createSignal } from "solid-js";
 
 const Cadastrar: Component = () => {
   const navigate = useNavigate();
 
-  const LForm: Component<{titulo: string, nome: string, type?: string;}> = (props) => (
+  const LForm: Component<{ titulo: string, nome: string, type?: string; }> = (props) => (
     <div>
       <h3 class="text-xl">{props.titulo}</h3>
       <input class="w-96 outline-none bg-transparent text-lg border-b border-gray-700 mt-1" id={`${props.nome}-form`} type={props.type} />
@@ -13,9 +13,15 @@ const Cadastrar: Component = () => {
 
   const [statusc, setStatus] = createSignal<JSX.Element>();
   const sendCadastrar = async () => {
-    if ((document.getElementById("senha-form") as HTMLInputElement).value !== (document.getElementById("conf-senha-form") as HTMLInputElement).value) {
-      console.error("As senhas não são iguais");
-      return;
+    try {
+      if (!(document.getElementById("conf-senha-form") as HTMLInputElement).checked) {
+        throw new Error("Aceite os termos de consentimento")
+      }
+      if ((document.getElementById("senha-form") as HTMLInputElement).value !== (document.getElementById("conf-senha-form") as HTMLInputElement).value) {
+        throw new Error("As senhas não são iguais")
+      }
+    } catch (e) {
+      setStatus(<span class="text-red-600 font-bold text-lg">Não foi possível cadastrar-se: {e.message}</span>);
     }
 
     const res = await fetch("http://localhost:9000/cadastrar", {
@@ -27,7 +33,7 @@ const Cadastrar: Component = () => {
       })
     });
     if (res.status === 200) {
-      navigate('/');
+      navigate('/cadastro-sucesso');
     } else {
       let msg = await res.text();
       setStatus(<span class="text-red-600 font-bold text-lg">Não foi possível cadastrar-se: {msg}</span>);

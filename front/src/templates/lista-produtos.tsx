@@ -1,15 +1,15 @@
-import {Component, For, createEffect, onMount} from "solid-js";
+import { Component, For, createEffect, onMount } from "solid-js";
 import Swiper from "swiper";
-import {Navigation} from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import {register} from 'swiper/element/bundle';
-import {ProdutoSimplesI} from "../models/Produto";
-import {A} from '@solidjs/router';
+import { register } from 'swiper/element/bundle';
+import { ProdutoSimplesI } from "../models/Produto";
+import { A } from '@solidjs/router';
 register();
 
-const ListaProdutos: Component<{produtos: ProdutoSimplesI[], titulo: string;}> = (props) => {
+const ListaProdutos: Component<{ produtos: ProdutoSimplesI[], titulo: string; }> = (props) => {
   const id = Math.floor(Math.random() * 200 + 1);
 
   createEffect((swiper: Swiper) => {
@@ -44,9 +44,9 @@ const ListaProdutos: Component<{produtos: ProdutoSimplesI[], titulo: string;}> =
             <For each={props.produtos}>{(produto, i) => (
               <div class="swiper-slide">
                 <A href={`/item/${produto.id}`}
-                   class="flex flex-col items-center h-full gap-1 overflow-hidden">
+                  class="flex flex-col items-center h-full gap-1 overflow-hidden">
                   <div class="object-cover bg-white mx-4 h-4/6 self-stretch rounded overflow-hidden">
-                    <img src={`/produtos/${produto.id}.webp`} class="h-full py-2 mx-auto rounded" loading="lazy" />
+                    <img src={`/produtos/${produto.id}.webp`} class="h-full py-3 mx-auto rounded" loading="lazy" />
                   </div>
                   <div class="text-xl">{`R$${produto.preco.toLocaleString()}`}</div>
                   <div class="text-center text-ellipsis overflow-hidden h-12">{produto.nome}</div>
