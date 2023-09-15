@@ -1,4 +1,4 @@
-package com.wepet.rotas;
+package com.webpet.rotas;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.wepet.classes.Produto;
-import com.wepet.classes.ProdutoSimples;
-import com.wepet.classes.RespostaHttp;
-import com.wepet.classes.Rota;
+import com.webpet.classes.ProdutoSimples;
+import com.webpet.classes.RespostaHttp;
+import com.webpet.classes.Rota;
 
 public class ProdutosHandler extends Rota {
 
@@ -22,13 +21,12 @@ public class ProdutosHandler extends Rota {
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
-        int codigo;
         try {
             // Declarando novo Array dinámico para salvar os produtos
             ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
-            String sql = "select * from produto";
+            String sql = "select id_produto, nome, descricao, preco, quantidade, imagem from produto";
             // Executando sql para retornar todos os produtos e salvando o resultado na
             // variável "resultados"
             if (query.get("categoria") != null) {
@@ -41,6 +39,10 @@ public class ProdutosHandler extends Rota {
                 sql += " where id_animal = " + query.get("animal");
             }
 
+            if (query.get("limit") != null) {
+                sql += " limit " + query.get("limit");
+            }
+
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 
@@ -51,9 +53,10 @@ public class ProdutosHandler extends Rota {
                 int id = resultados.getInt("id_produto");
                 String descricao = resultados.getString("descricao");
                 double preco = resultados.getDouble("preco");
-                int quantidade = resultados.getInt("Quantidade");
+                int quantidade = resultados.getInt("quantidade");
+                String imagem = resultados.getString("imagem");
 
-                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade));
+                produtos.add(new ProdutoSimples(nome, descricao, preco, id, quantidade, imagem));
             }
 
             // Criando JSON para retornar na resposta
@@ -66,14 +69,12 @@ public class ProdutosHandler extends Rota {
             }
             response += "]}";
 
-            codigo = 200;
-
+            return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {
             response = "Falha ao buscar os produtos";
-            codigo = 500;
             e.printStackTrace();
+            return new RespostaHttp(response).code(500);
         }
 
-        return new RespostaHttp(codigo, response, "application/json");
     }
 }

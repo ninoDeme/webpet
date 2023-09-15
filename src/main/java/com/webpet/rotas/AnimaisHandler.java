@@ -1,4 +1,4 @@
-package com.wepet.rotas;
+package com.webpet.rotas;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.wepet.classes.Animal;
-import com.wepet.classes.RespostaHttp;
-import com.wepet.classes.Rota;
+import com.webpet.classes.Animal;
+import com.webpet.classes.RespostaHttp;
+import com.webpet.classes.Rota;
 
 public class AnimaisHandler extends Rota {
 
@@ -22,7 +22,6 @@ public class AnimaisHandler extends Rota {
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
-        int codigo;
         try {
             // Declarando novo Array dinámico para salvar os produtos
             ArrayList<Animal> animal = new ArrayList<Animal>();
@@ -52,14 +51,11 @@ public class AnimaisHandler extends Rota {
             }
             response += "]}";
 
-            codigo = 200;
-
+            return new RespostaHttp(response).tipo("application/json");
         } catch (SQLException e) {
             response = "Falha ao inserir produto";
-            codigo = 500;
             e.printStackTrace();
+            return new RespostaHttp(response).code(500);
         }
-
-        return new RespostaHttp(codigo, response, "application/json");
     }
 }
