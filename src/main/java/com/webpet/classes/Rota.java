@@ -52,10 +52,11 @@ public abstract class Rota implements HttpHandler {
                 response = get(query, exchange);
             }
 
+            exchange.getResponseHeaders().putAll(response.headersMap);;
             if (response.tipo != null) {
                 exchange.getResponseHeaders().set("content-type", response.tipo);
             }
-            exchange.getResponseHeaders().putAll(response.headersMap);;
+            exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
             exchange.sendResponseHeaders(response.codigo, response.mensagem.length);
             try {
                 os.write(response.mensagem);

@@ -40,7 +40,7 @@ public class ProdutosHandler extends Rota {
             }
 
             if (query.get("limit") != null) {
-                sql += " limit " + query.get("limit");
+                sql += " order by random() limit " + query.get("limit");
             }
 
             PreparedStatement ps = this.conexao.prepareStatement(sql);

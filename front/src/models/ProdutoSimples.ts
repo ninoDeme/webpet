@@ -1,7 +1,7 @@
 export interface ProdutoSimplesI {
     id: number;
-    nome: String;
-    descricao: String;
+    nome: string;
+    descricao: string;
     preco: number;
     quantidade: number;
     imagem: string;
