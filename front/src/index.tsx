@@ -4,6 +4,7 @@ import { render } from 'solid-js/web';
 
 import App from './App';
 import {Route, Router, Routes} from '@solidjs/router';
+import Cabecalho from './templates/cabecalho';
 
 const root = document.getElementById('root');
 
@@ -14,11 +15,7 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
 }
 
 render(() => (
-  <Router>
-      <Routes>
-        <Route path="/*" component={App} /> 
-      </Routes>
-  </Router>
+  <App />
 ),
   root!
 );

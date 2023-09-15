@@ -3,7 +3,6 @@ package com.webpet.rotas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -19,18 +18,21 @@ public class CadastrarHandler extends Rota {
     @Override
     public RespostaHttp post(String body, HttpExchange exchange) {
         Usuario novo = new Usuario();
-        
+
         try {
             JSONObject b = new JSONObject(body);
             novo.nome = b.getString("nome");
             novo.email = b.getString("email");
             novo.senha = b.getString("senha");
             novo.telefone = b.getString("telefone");
-        } catch (JSONException e) {
+            if (novo.email.equals("") || novo.nome.equals("") || novo.senha.equals("") || novo.telefone.equals("")) {
+                throw new Error();
+            }
+        } catch (Throwable e) {
             e.printStackTrace();
             return new RespostaHttp().code(400).send("Body Invalido");
         }
-        
+
         try {
             String sql = "INSERT INTO usuario (nome, senha, email, telefone) values (?, ?, ?, ?)";
             PreparedStatement ps = this.conexao.prepareStatement(sql);
@@ -43,7 +45,7 @@ public class CadastrarHandler extends Rota {
             e.printStackTrace();
             return new RespostaHttp().code(500).send("Não foi possível concluir o cadastro");
         }
-        
+
         return new RespostaHttp("Usuario Cadastrado Com Sucesso");
     }
 
