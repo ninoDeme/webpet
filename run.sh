@@ -1,4 +1,2 @@
 #!/usr/bin/env sh
-
-
-mvn package; java -cp ./target/webpet-1.0-SNAPSHOT.jar com.webpet.App
+mvn clean; mvn package; mvn exec:java -Dexec.mainClass="com.webpet.App"

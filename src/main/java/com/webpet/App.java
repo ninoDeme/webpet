@@ -15,7 +15,9 @@ import com.webpet.rotas.LoginHandler;
 import com.webpet.rotas.VersaoHandler;
 
 public class App {
-    public static void main(String[] args) throws IOException, SQLException {
+    public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
+
+        Class.forName("org.sqlite.JDBC");
 
         // Inicializando servidor local na porta 9000
         // Para conectar ao servidor (local) e so acessar http://localhost:9000/
