@@ -6,7 +6,7 @@ import java.net.InetSocketAddress;
 import java.sql.*;
 
 import com.sun.net.httpserver.*;
-import com.webpet.rotas.UnicoProdutoHandler;
+import com.webpet.rotas.FavoritarProdutoHandler;
 import com.webpet.rotas.AnimaisHandler;
 import com.webpet.rotas.CadastrarHandler;
 import com.webpet.rotas.CategoriasHandler;
@@ -39,12 +39,13 @@ public class App {
         server.createContext("/", new HandlerPadrao());
         server.createContext("/version", new VersaoHandler());
         server.createContext("/cep", new BuscaCepHandler());
-        server.createContext("/produto", new UnicoProdutoHandler(conexao));
+        server.createContext("/produto", new FavoritarProdutoHandler(conexao));
         server.createContext("/produtos", new ProdutosHandler(conexao));
         server.createContext("/categorias", new CategoriasHandler(conexao));
         server.createContext("/animal", new AnimaisHandler(conexao));
         server.createContext("/cadastrar", new CadastrarHandler(conexao));
         server.createContext("/login", new LoginHandler(conexao));
+        server.createContext("/favoritos", new FavoritarProdutoHandler(conexao));
 
         server.setExecutor(null);
         server.start();
