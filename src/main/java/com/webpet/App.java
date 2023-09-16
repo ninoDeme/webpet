@@ -10,6 +10,7 @@ import com.webpet.rotas.FavoritarProdutoHandler;
 import com.webpet.rotas.AnimaisHandler;
 import com.webpet.rotas.VenderProdutoHandler;
 import com.webpet.rotas.CategoriasHandler;
+import com.webpet.rotas.CupomDescontoHandler;
 import com.webpet.rotas.BuscaCepHandler;
 import com.webpet.rotas.CadastrarHandler;
 import com.webpet.rotas.HandlerPadrao;
@@ -50,6 +51,8 @@ public class App {
         server.createContext("/login", new LoginHandler(conexao));
         server.createContext("/favoritos", new FavoritarProdutoHandler(conexao));
         server.createContext("/vendas", new VenderProdutoHandler(conexao));
+        server.createContext("/cupom", new CupomDescontoHandler(conexao));
+    
     
         server.setExecutor(null);
         server.start();
