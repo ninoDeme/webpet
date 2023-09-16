@@ -11,7 +11,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.webpet.classes.ProdutoSimples;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
-import com.webpet.classes.Usuario;
 
 public class ProdutosHandler extends Rota {
 
