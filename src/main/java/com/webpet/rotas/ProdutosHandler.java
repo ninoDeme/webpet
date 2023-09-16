@@ -11,6 +11,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.webpet.classes.ProdutoSimples;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
+import com.webpet.classes.Usuario;
 
 public class ProdutosHandler extends Rota {
 
@@ -26,20 +27,26 @@ public class ProdutosHandler extends Rota {
             ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
             
             // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
-            String sql = "select id_produto, nome, descricao, preco, quantidade, imagem from produto";
+            String sql = "select produto.id_produto, produto.nome, produto.descricao, produto.preco, produto.quantidade, produto.imagem from produto";
             // Executando sql para retornar todos os produtos e salvando o resultado na
             // variável "resultados"
+            if (query.get("fav") != null) {
+                sql += " inner join favoritos_usuario on produto.id_produto = favoritos_usuario.id_produto";
+            }
             String where = "";
             if (query.get("categoria") != null) {
-                where += " where id_categoria = " + query.get("categoria");
+                where += " where produto.id_categoria = " + query.get("categoria");
                 if (query.get("animal") != null) {
-                    where += " and id_animal = " + query.get("animal");
+                    where += " and produto.id_animal = " + query.get("animal");
                 }
             }
             if (query.get("animal") != null) {
-                where += " where id_animal = " + query.get("animal");
+                where += " where produto.id_animal = " + query.get("animal");
             }
 
+            if (query.get("fav") != null) {
+                where += " where favoritos_usuario.id_usuario = " + query.get("fav");
+            }
             sql += where;
             if (query.get("random") != null) {
                 sql += " order by random()";
@@ -50,7 +57,7 @@ public class ProdutosHandler extends Rota {
             if (query.get("limit") != null && query.get("pagina") != null) {
                 sql += " offset " + Integer.toString((Integer.parseInt(query.get("pagina"))-1) * Integer.parseInt(query.get("limit")));
             }
-
+            System.out.println(sql);
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             ResultSet resultados = ps.executeQuery();
 

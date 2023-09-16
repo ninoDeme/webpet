@@ -4,7 +4,7 @@ import { A } from '@solidjs/router';
 import { AnimalI } from '../models/Animal';
 import { CategoriaI } from '../models/Categoria';
 import { Menu, MenuItem, Popover, PopoverButton, PopoverPanel, Transition } from 'solid-headless';
-import { checkAuth } from "../AuthProvider";
+import { authSignal, checkAuth } from "../AuthProvider";
 
 const WPMenu: Component<{ title: string, itens: { title: string, link: string; }[]; }> = (props) => (
   <Popover class="relative" defaultOpen={false}>{({ isOpen }) => (<>
@@ -35,6 +35,7 @@ const WPMenu: Component<{ title: string, itens: { title: string, link: string; }
 const Cabecalho: Component = () => {
   const [categorias, setCategoria] = createSignal<CategoriaI[]>();
   const [animais, setAnimais] = createSignal<AnimalI[]>();
+  checkAuth();
 
   onMount(() => {
     fetch(`http://localhost:9000/categorias`, { mode: 'cors' }).then(async res => {
@@ -54,11 +55,11 @@ const Cabecalho: Component = () => {
           <input class="flex-1 bg-transparent outline-none min-w-0" />
           <span class="material-symbols-outlined">search</span>
         </div>
-        {checkAuth()
+        {authSignal[0]()
           ?
-          <button class="bg-fundo_alt flex justify-center items-center gap-2 rounded max-md:aspect-square my-2 px-3">
-            <span class="material-symbols-outlined"> account_circle</span>
-            <span class="hidden md:block">Minha Conta</span>
+          <button class="bg-fundo_alt flex justify-center items-center gap-2 rounded max-md:aspect-square my-2 px-3" onClick={() => {localStorage.removeItem("Auth"); location.reload()}}>
+            <span class="material-symbols-outlined">logout</span>
+            <span class="hidden md:block">Sair</span>
           </button>
           :
           <div class="flex gap-3">
@@ -75,7 +76,7 @@ const Cabecalho: Component = () => {
         <WPMenu title="Animais" itens={(animais() ?? []).map(cat => ({ title: cat.nome, link: `/animal/${cat.id}` }))}></WPMenu>
         <WPMenu title="Categorias" itens={(categorias() ?? []).map(cat => ({ title: cat.nome, link: `/categoria/${cat.id}` }))}></WPMenu>
         <div class="flex-1"></div>
-        <A href="/">
+        <A href="/favoritos">
           <button class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-1">
             <span class="material-symbols-outlined">favorite</span>
           </button>

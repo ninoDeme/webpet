@@ -17,6 +17,7 @@ import com.webpet.rotas.LoginHandler;
 import com.webpet.rotas.ProdutosHandler;
 import com.webpet.rotas.UnicoProdutoHandler;
 import com.webpet.rotas.VersaoHandler;
+import com.webpet.rotas.UnicoProdutoHandler;
 
 public class App {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {

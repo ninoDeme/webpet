@@ -1,3 +1,6 @@
+import { createSignal } from "solid-js";
+import { User } from "./models/user";
+
 function getCookie(cname) {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
@@ -21,17 +24,32 @@ function parseJwt(token) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 
+  console.log(jsonPayload)
   return JSON.parse(jsonPayload);
 }
 
-export const checkAuth = function() {
+export const authSignal = createSignal<User>();
+export const checkAuth = function(): User {
   let jwt = localStorage.getItem("Auth")
   if (jwt) {
-    return (parseJwt(jwt));
+    
+    authSignal[1](parseJwt(jwt));
+    return authSignal[0]();
   }
 }
 
 export const setAuth = function(jwt: string) {
+  document.cookie = "Auth=" + jwt + "; SameSite=Lax";
   localStorage.setItem("Auth", jwt);
+  checkAuth();
+}
 
+export const favoritar = async (id: number) => {
+  const res = await fetch("http://localhost:9000/favoritos?id=" + id + "&u=" + checkAuth().id, {mode: "cors"})
+
+  if (res.status === 200) {
+    return true;
+  } else {
+    throw new Error(await res.text());
+  }
 }

@@ -21,6 +21,7 @@ const App: Component = () => {
             <Route path="/item/:id" component={ProdutoPage} />
             <Route path="/animal/:animal" component={PesquisaProdutos} />
             <Route path="/categoria/:categoria" component={PesquisaProdutos} />
+            <Route path="/favoritos/" component={PesquisaProdutos} />
             <Route path="/" component={Home} />
           </Route>
         </Routes>

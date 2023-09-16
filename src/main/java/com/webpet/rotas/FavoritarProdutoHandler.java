@@ -20,8 +20,8 @@ public class FavoritarProdutoHandler extends Rota {
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         String response;
         try {
-            this.Auth(pedido);
-            Usuario usuario = this.Auth(pedido);
+            // this.Auth(pedido);
+            // Usuario usuario = this.Auth(pedido);
             // Declarando novo Array dinámico para salvar os produtos
 
             // Executando sql para retornar todos os produtos e salvando o resultado na
@@ -34,7 +34,7 @@ public class FavoritarProdutoHandler extends Rota {
             
             ps = this.conexao.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(query.get("id")));
-            ps.setInt(2,usuario.id);
+            ps.setInt(2, Integer.parseInt(query.get("u")));
         
           return new RespostaHttp("Favoritado com sucesso");
            
