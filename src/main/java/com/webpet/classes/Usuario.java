@@ -1,4 +1,5 @@
 package com.webpet.classes;
+
 import org.json.JSONObject;
 
 public class Usuario {
@@ -7,7 +8,7 @@ public class Usuario {
     public String email;
     public String senha;
     public String telefone;
-    
+
     public String toJSON() {
         JSONObject json = new JSONObject();
         json.put("id", id);
@@ -15,6 +16,7 @@ public class Usuario {
         json.put("email", email);
         json.put("senha", senha);
         json.put("telefone", telefone);
+
         return json.toString();
     }
 }

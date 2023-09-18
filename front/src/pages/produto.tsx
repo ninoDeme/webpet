@@ -2,6 +2,7 @@ import {Component, Show, createSignal, onMount} from 'solid-js';
 import {ProdutoI} from '../models/Produto';
 import {A, useParams} from '@solidjs/router';
 import {BuscaCepResultado} from '../models/BuscaCepResultado';
+import { favoritar } from '../AuthProvider';
 
 const ProdutoPage: Component = () => {
     const [produto, setProduto] = createSignal<ProdutoI>();
@@ -62,7 +63,7 @@ const ProdutoPage: Component = () => {
             <div class="bg-fundo1 rounded p-4 flex flex-col">
                 <div class="flex justify-end gap-4">
                     <A href="/">
-                        <button class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-1">
+                        <button onClick={() => favoritar(produto().id)} class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-1">
                             <span class="material-symbols-outlined">favorite</span>
                         </button>
                     </A>

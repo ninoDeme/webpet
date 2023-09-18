@@ -60,13 +60,15 @@ CREATE table produto(
 
 CREATE TABLE  venda(
     id_venda INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    id_cupom INTEGER,
     id_produto INTEGER NOT NULL,
     id_usuario INTEGER NOT NULL,
     data_horario TEXT NOT NULL,
     tempo_entrega TEXT NOT NULL,
     cep TEXT NOT NULL,
     FOREIGN KEY(id_produto) REFERENCES produto(id_produto),
-    FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario)
+    FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY(id_cupom)REFERENCES cupom_desconto(id_cupom)
 );
 
 
@@ -77,5 +79,10 @@ CREATE TABLE  favoritos_usuario(
     FOREIGN KEY(id_produto) REFERENCES produto(id_produto),
     FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario)
 );
+CREATE TABLE cupom_desconto(
+    id_cupom INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, 
+    codigo TEXT NOT NULL,
+    porcentagem_desconto DOUBLE NOT NULL
 
+)
 

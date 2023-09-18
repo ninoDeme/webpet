@@ -1,6 +1,5 @@
 package com.webpet.rotas;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;

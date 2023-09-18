@@ -6,15 +6,19 @@ import java.net.InetSocketAddress;
 import java.sql.*;
 
 import com.sun.net.httpserver.*;
-import com.webpet.rotas.UnicoProdutoHandler;
+import com.webpet.rotas.FavoritarProdutoHandler;
 import com.webpet.rotas.AnimaisHandler;
-import com.webpet.rotas.CadastrarHandler;
+import com.webpet.rotas.VenderProdutoHandler;
 import com.webpet.rotas.CategoriasHandler;
+import com.webpet.rotas.CupomDescontoHandler;
 import com.webpet.rotas.BuscaCepHandler;
+import com.webpet.rotas.CadastrarHandler;
 import com.webpet.rotas.HandlerPadrao;
 import com.webpet.rotas.LoginHandler;
 import com.webpet.rotas.ProdutosHandler;
+import com.webpet.rotas.UnicoProdutoHandler;
 import com.webpet.rotas.VersaoHandler;
+
 
 public class App {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
@@ -45,7 +49,11 @@ public class App {
         server.createContext("/animal", new AnimaisHandler(conexao));
         server.createContext("/cadastrar", new CadastrarHandler(conexao));
         server.createContext("/login", new LoginHandler(conexao));
-
+        server.createContext("/favoritos", new FavoritarProdutoHandler(conexao));
+        server.createContext("/vendas", new VenderProdutoHandler(conexao));
+        server.createContext("/cupom", new CupomDescontoHandler(conexao));
+    
+    
         server.setExecutor(null);
         server.start();
     }
