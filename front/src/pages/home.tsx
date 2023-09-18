@@ -11,13 +11,13 @@ const Home: Component = () => {
   const [produtos2, setProdutos2] = createSignal<ProdutoSimplesI[]>([]);
   const [produtos3, setProdutos3] = createSignal<ProdutoSimplesI[]>([]);
 
-  fetch("http://localhost:9000/produtos?limit=10&random=true", {mode: 'cors'}).then(async res => {
+  fetch("http://localhost:3000/api/produtos?limit=10&random=true", {mode: 'cors'}).then(async res => {
     setProdutos1(await res.json().then(r => r.resultado));
   })
-  fetch("http://localhost:9000/produtos?limit=10&random=true", {mode: 'cors'}).then(async res => {
+  fetch("http://localhost:3000/api/produtos?limit=10&random=true", {mode: 'cors'}).then(async res => {
     setProdutos2(await res.json().then(r => r.resultado));
   })
-  fetch("http://localhost:9000/produtos?limit=10&random=true", {mode: 'cors'}).then(async res => {
+  fetch("http://localhost:3000/api/produtos?limit=10&random=true", {mode: 'cors'}).then(async res => {
     setProdutos3(await res.json().then(r => r.resultado));
   })
 

@@ -21,7 +21,7 @@ const ProdutoPage: Component = () => {
             if (cep.length !== 8) {
                 throw new Error('CEP Inválido');
             }
-            const res = await fetch(`http://localhost:9000/cep?cep=${cep}`, {mode: 'cors'});
+            const res = await fetch(`http://localhost:3000/api/cep?cep=${cep}`, {mode: 'cors'});
             if (res.status === 400) {
                 throw new Error('CEP Inválido');
             }
@@ -40,7 +40,7 @@ const ProdutoPage: Component = () => {
         }
     };
     onMount(() => {
-        fetch(`http://localhost:9000/produto?id=${params.id}`, {mode: 'cors'}).then(async res => {
+        fetch(`http://localhost:3000/api/produto?id=${params.id}`, {mode: 'cors'}).then(async res => {
             setProduto(await res.json().then(r => r.resultado));
         });
     });

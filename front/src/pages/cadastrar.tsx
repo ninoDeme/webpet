@@ -18,7 +18,7 @@ const Cadastrar: Component = () => {
       return;
     }
 
-    const res = await fetch("http://localhost:9000/cadastrar", {
+    const res = await fetch("http://localhost:3000/api/cadastrar", {
       method: 'POST', body: JSON.stringify({
         nome: (document.getElementById("nome-form") as HTMLInputElement).value,
         email: (document.getElementById("email-form") as HTMLInputElement).value,

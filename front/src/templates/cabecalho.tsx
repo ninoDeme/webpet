@@ -36,10 +36,10 @@ const Cabecalho: Component = () => {
     const [animais, setAnimais] = createSignal<AnimalI[]>();
 
     onMount(() => {
-        fetch(`http://localhost:9000/categorias`, {mode: 'cors'}).then(async res => {
+        fetch(`http://localhost:3000/api/categorias`, {mode: 'cors'}).then(async res => {
             setCategoria(await res.json().then(r => r.resultado));
         });
-        fetch(`http://localhost:9000/animal`, {mode: 'cors'}).then(async res => {
+        fetch(`http://localhost:3000/api/animal`, {mode: 'cors'}).then(async res => {
             setAnimais(await res.json().then(r => r.resultado));
         });
     });

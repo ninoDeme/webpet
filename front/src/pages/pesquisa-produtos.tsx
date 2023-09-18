@@ -10,7 +10,7 @@ async function fetchProdutos({animal, cat}): Promise<ProdutoSimplesI[]> {
   if (animal) {
     query += `&animal=${animal}`;
   }
-  const res = await fetch("http://localhost:9000/produtos?limit=20&pagina=1" + query, {mode: 'cors'});
+  const res = await fetch("http://localhost:3000/api/produtos?limit=20&pagina=1" + query, {mode: 'cors'});
   return res.json().then(r => r.resultado);
 }
 
