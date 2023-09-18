@@ -39,7 +39,6 @@ export const checkAuth = function(): User {
 }
 
 export const setAuth = function(jwt: string) {
-  document.cookie = "Auth=" + jwt + "; SameSite=Lax";
   localStorage.setItem("Auth", jwt);
   checkAuth();
 }
