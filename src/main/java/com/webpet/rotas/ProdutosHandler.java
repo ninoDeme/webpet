@@ -94,6 +94,8 @@ public class ProdutosHandler extends Rota {
                 resultados = ps.executeQuery();
                 resultados.next();
                 response += ", \"total\": " + Integer.toString(resultados.getInt("total"));
+                response += ", \"pagina\": " + Integer.parseInt((query.get("pagina") != null) ? query.get("pagina") : "1");
+
             }
 
             response += "}";
