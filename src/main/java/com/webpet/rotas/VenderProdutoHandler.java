@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.webpet.classes.AuthException;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
 import com.webpet.classes.Usuario;
@@ -21,8 +22,8 @@ public class VenderProdutoHandler extends Rota {
         Usuario usuario;
         try {
             usuario = this.Auth(pedido);
-        } catch (Throwable e) {
-            return new RespostaHttp("Erro: Não Autorizado").code(401);
+        } catch (AuthException e) {
+            return e.getResposta();
         }
 
         Venda venda = new Venda();

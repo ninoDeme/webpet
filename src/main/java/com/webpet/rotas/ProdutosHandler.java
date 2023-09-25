@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
+import com.webpet.classes.AuthException;
 import com.webpet.classes.ProdutoSimples;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
@@ -24,29 +25,32 @@ public class ProdutosHandler extends Rota {
         try {
             // Declarando novo Array dinámico para salvar os produtos
             ArrayList<ProdutoSimples> produtos = new ArrayList<ProdutoSimples>();
-            
-            // Executando sql para retornar todos os produtos e salvando o resultado na variável "resultados"
+
+            // Executando sql para retornar todos os produtos e salvando o resultado na
+            // variável "resultados"
             String sql = "select produto.id_produto, produto.nome, produto.descricao, produto.preco, produto.quantidade, produto.imagem from produto";
             // Executando sql para retornar todos os produtos e salvando o resultado na
             // variável "resultados"
+            String joins = "";
             if (query.get("fav") != null) {
-                sql += " inner join favoritos_usuario on produto.id_produto = favoritos_usuario.id_produto";
+                joins += " inner join favoritos_usuario on produto.id_produto = favoritos_usuario.id_produto";
             }
-            String where = "";
+            String where = " where true";
             if (query.get("categoria") != null) {
-                where += " where produto.id_categoria = " + query.get("categoria");
-                if (query.get("animal") != null) {
-                    where += " and produto.id_animal = " + query.get("animal");
-                }
+                where += " and produto.id_categoria = " + query.get("categoria");
             }
             if (query.get("animal") != null) {
-                where += " where produto.id_animal = " + query.get("animal");
+                where += " and produto.id_animal = " + query.get("animal");
             }
 
             if (query.get("fav") != null) {
-                where += " where favoritos_usuario.id_usuario = " + query.get("fav");
+                where += " and favoritos_usuario.id_usuario = " + this.Auth(pedido).id;
             }
-            sql += where;
+
+            if (query.get("q") != null) {
+                where += " and (instr(UPPER(nome), UPPER(?)) > 0 or instr(UPPER(descricao), UPPER(?)) > 0)";
+            }
+            sql += joins + where;
             if (query.get("random") != null) {
                 sql += " order by random()";
             }
@@ -54,12 +58,15 @@ public class ProdutosHandler extends Rota {
                 sql += " limit " + query.get("limit");
             }
             if (query.get("limit") != null && query.get("pagina") != null) {
-                sql += " offset " + Integer.toString((Integer.parseInt(query.get("pagina"))-1) * Integer.parseInt(query.get("limit")));
+                sql += " offset " + Integer.toString((Integer.parseInt(query.get("pagina")) - 1) * Integer.parseInt(query.get("limit")));
             }
-            System.out.println(sql);
+            // System.out.println(sql);
             PreparedStatement ps = this.conexao.prepareStatement(sql);
+            if (query.get("q") != null) {
+                ps.setString(1, query.get("q"));
+                ps.setString(2, query.get("q"));
+            }
             ResultSet resultados = ps.executeQuery();
-
 
             // Iterando por todos os produtos, inicializando o objeto produto e salvando no
             // array produtos
@@ -83,7 +90,7 @@ public class ProdutosHandler extends Rota {
             }
             response += "]";
             if (query.get("limit") != null) {
-                ps = this.conexao.prepareStatement("select count(*) as total from produto" + where);
+                ps = this.conexao.prepareStatement("select count(*) as total from produto" + joins + where);
                 resultados = ps.executeQuery();
                 resultados.next();
                 response += ", \"total\": " + Integer.toString(resultados.getInt("total"));
@@ -96,6 +103,8 @@ public class ProdutosHandler extends Rota {
             response = "Falha ao buscar os produtos";
             e.printStackTrace();
             return new RespostaHttp(response).code(500);
+        } catch (AuthException e) {
+            return e.getResposta();
         }
 
     }

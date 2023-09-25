@@ -1,4 +1,4 @@
-import {ParentComponent, createContext, onMount, useContext} from "solid-js";
+import {ParentComponent, createContext, createSignal, onMount, useContext} from "solid-js";
 import {createStore} from "solid-js/store";
 import {User} from "./models/User";
 
@@ -30,7 +30,7 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
-const authStore = createStore<User>(null);
+const authStore = createSignal<User>(null);
 
 export const AuthStore = () => {
   const [auth, setAuth] = authStore;
@@ -38,7 +38,6 @@ export const AuthStore = () => {
   onMount(() => {
     let jwt = localStorage.getItem("Auth");
     if (!jwt) return;
-    console.log('onMount');
     setAuth(JSON.parse(jwt));
   });
 
@@ -50,14 +49,19 @@ export const AuthStore = () => {
   const checkAuth = function (): User {
     let jwt = localStorage.getItem("Auth");
     if (jwt) {
-      setAuth(JSON.parse(jwt));
-      return auth;
+      setAuth(() => JSON.parse(jwt));
+      return auth();
     }
-    setAuth(() => null);
+    setAuth(() => undefined);
     return null;
   };
 
-  return {auth, updateAuth, checkAuth};
+  const logout = function () {
+    localStorage.removeItem("Auth")
+    setAuth(() => undefined);
+  }
+
+  return {auth, updateAuth, checkAuth, logout};
 };
 
 

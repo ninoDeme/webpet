@@ -78,7 +78,7 @@ public abstract class Rota implements HttpHandler {
         return new RespostaHttp().code(404).send("Rota Invalida ou Não Implementada");
     }
     
-    public Usuario Auth(HttpExchange exchange) throws Exception {
+    public Usuario Auth(HttpExchange exchange) throws AuthException {
         List<String> cookies = exchange.getRequestHeaders().get("Cookie");
 
         Pattern pattern = Pattern.compile("Auth=(.+?)(;|$)");
@@ -92,7 +92,7 @@ public abstract class Rota implements HttpHandler {
             }
         }
         if (jwt == null) {
-            throw new Error("Não Autorizado");
+            throw new AuthException();
         }
         DecodedJWT decodedJWT;
         try {
@@ -119,7 +119,7 @@ public abstract class Rota implements HttpHandler {
             
             return user;
         } catch (JWTVerificationException exception) {
-            throw new Error("Não Autorizado");
+            throw new AuthException();
         }
     }
 

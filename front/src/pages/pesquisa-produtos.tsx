@@ -1,29 +1,38 @@
-import {Component, For, createMemo, createResource} from "solid-js";
-import {A, useParams} from '@solidjs/router';
+import {Component, For, createEffect, createMemo, createResource} from "solid-js";
+import {A, useLocation, useParams} from '@solidjs/router';
 import {ProdutoSimplesI} from '../models/Produto';
-import {useAuth} from '../AuthProvider';
 
-async function fetchProdutos({animal, cat}): Promise<ProdutoSimplesI[]> {
-  const {auth} = useAuth();
-  let query: string = "";
-  if (cat) {
-    query = `&categoria=${cat}`;
+async function fetchProdutos(query: {animal?: string, categoria?: string, fav?: string, query?: string}): Promise<ProdutoSimplesI[]> {
+  const currQuery = new URLSearchParams(query.query);
+  const finalQuery = new URLSearchParams({limit: '20', pagina: '1'});
+  let categoria = query.categoria || currQuery.get('categoria')
+  if (categoria) {
+    finalQuery.set('categoria', categoria)
   }
+  let animal = query.animal || currQuery.get('animal')
   if (animal) {
-    query += `&animal=${animal}`;
+    finalQuery.set('animal', animal)
   }
-  if (query === "") {
-    query = "&fav=" + auth.id
+  let fav = query.fav || currQuery.get('fav')
+  if (fav) {
+    finalQuery.set('fav', 'true')
   }
-  const res = await fetch("http://localhost:3000/api/produtos?limit=20&pagina=1" + query, {mode: 'cors'});
+  if (currQuery.get('q')) {
+    finalQuery.set('q', currQuery.get('q'));
+  }
+  
+  
+  const res = await fetch(`http://localhost:3000/api/produtos?${finalQuery}`, {mode: 'cors'});
   return res.json().then(r => r.resultado);
 }
 
 const PesquisaProdutos: Component = () => {
 
   const params = useParams();
+  const location = useLocation();
 
-  const derivedState = createMemo(() => ({animal: params.animal, cat: params.categoria}));
+
+  const derivedState = createMemo(() => ({animal: params['animal'], categoria: params['categoria'], fav: params['fav'], query: location.search}));
 
   const [produtos] = createResource(derivedState, fetchProdutos);
 

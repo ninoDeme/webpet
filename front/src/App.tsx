@@ -1,7 +1,7 @@
 import type {Component} from 'solid-js';
 import Cabecalho from './templates/cabecalho';
 import './App.css';
-import {Outlet, Route, Router, Routes} from '@solidjs/router';
+import {Navigate, Outlet, Route, Router, Routes} from '@solidjs/router';
 import Home from './pages/home';
 import ProdutoPage from './pages/produto';
 import PesquisaProdutos from './pages/pesquisa-produtos';
@@ -19,9 +19,10 @@ const App: Component = () => {
             <Route path="/cadastro-sucesso" component={CadastroSucesso} />
             <Route path="/login" component={Login} />
             <Route path="/item/:id" component={ProdutoPage} />
+            <Route path="/search" component={PesquisaProdutos}/>
             <Route path="/animal/:animal" component={PesquisaProdutos} />
             <Route path="/categoria/:categoria" component={PesquisaProdutos} />
-            <Route path="/favoritos/" component={PesquisaProdutos} />
+            <Route path="/favoritos/" element={<Navigate href="/search?fav=true"/>} />
             <Route path="/" component={Home} />
           </Route>
         </Routes>

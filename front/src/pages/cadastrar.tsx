@@ -54,7 +54,7 @@ const Cadastrar: Component = () => {
         <h3 class="text-lg cursor-pointer select-none" onClick={() => document.getElementById("term-form").checked = !document.getElementById("term-form").checked}>Eu concordo com os termos de consentimento</h3>
       </div>
 
-      <button onClick={sendCadastrar} class="bg-fundo1 text-lg flex justify-center gap-2 rounded py-1 px-4 hover:bg-fundo_alt hover:text-texto">
+      <button onClick={() => sendCadastrar()} class="bg-fundo1 text-lg flex justify-center gap-2 rounded py-1 px-4 hover:bg-fundo_alt hover:text-texto">
         <span>Cadastrar</span>
         {/* <span class="material-symbols-outlined">{props.icone}</span> */}
       </button>

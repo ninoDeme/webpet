@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Map;
 import com.sun.net.httpserver.HttpExchange;
+import com.webpet.classes.AuthException;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
 import com.webpet.classes.Usuario;
@@ -22,8 +23,8 @@ public class FavoritarProdutoHandler extends Rota {
         Usuario user;
         try {
             user = this.Auth(pedido);
-        } catch (Throwable e) {
-            return new RespostaHttp("Erro: Não Autorizado").code(401);
+        } catch (AuthException e) {
+            return e.getResposta();
         }
 
         String response;
