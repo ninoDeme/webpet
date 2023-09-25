@@ -13,7 +13,7 @@ import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
 public class CupomDescontoHandler extends Rota {
     public CupomDescontoHandler(Connection conexao) {
-        super("CupomDescontoHandler", conexao);
+        super(conexao);
     }
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {

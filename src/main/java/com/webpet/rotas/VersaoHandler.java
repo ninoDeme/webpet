@@ -7,10 +7,6 @@ import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
 
 public class VersaoHandler extends Rota {
-    
-    public VersaoHandler() {
-        super("VersaoHandler");
-    }
 
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {

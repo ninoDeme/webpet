@@ -25,18 +25,15 @@ import com.sun.net.httpserver.HttpHandler;
  */
 public abstract class Rota implements HttpHandler {
     
-    public String nome;
     public Connection conexao;
     static public String secret = "ChaveSecreta";
     
-    public Rota(String nome, Connection conexao) {
-        this.nome = nome;
+    public Rota(Connection conexao) {
         this.conexao = conexao;
     }
 
-    public Rota(String nome) {
-        this.nome = nome;
-    }
+    public Rota() {};
+
 
     public void handle(HttpExchange exchange) throws IOException {
         System.out.println(this.getClass().getSimpleName() + ": Requisição recebida - " + exchange.getRequestURI().toString());
@@ -81,7 +78,7 @@ public abstract class Rota implements HttpHandler {
         return new RespostaHttp().code(404).send("Rota Invalida ou Não Implementada");
     }
     
-    public Usuario Auth(HttpExchange exchange) {
+    public Usuario Auth(HttpExchange exchange) throws Exception {
         List<String> cookies = exchange.getRequestHeaders().get("Cookie");
 
         Pattern pattern = Pattern.compile("Auth=(.+?)(;|$)");
@@ -117,7 +114,7 @@ public abstract class Rota implements HttpHandler {
             user.id = json.getInt("id");
             user.email = json.getString("email");
             user.nome = json.getString("nome");
-            user.senha = json.getString("senha");
+//            user.senha = json.getString("senha");
             user.telefone = json.getString("telefone");
             
             return user;

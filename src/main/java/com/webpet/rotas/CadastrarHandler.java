@@ -12,7 +12,7 @@ import com.webpet.classes.Usuario;
 
 public class CadastrarHandler extends Rota {
     public CadastrarHandler(Connection conexao) {
-        super("CadastrarHandler", conexao);
+        super(conexao);
     }
 
     @Override

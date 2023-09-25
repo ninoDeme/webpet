@@ -13,16 +13,21 @@ import com.webpet.classes.Venda;
 
 public class VenderProdutoHandler extends Rota {
     public VenderProdutoHandler(Connection conexao) {
-        super("VenderProdutoHandler", conexao);
+        super(conexao);
     }
 
     @Override
     public RespostaHttp post(String body, HttpExchange pedido) {
-    Usuario usuario= this.Auth(pedido);
-    Venda venda =new Venda();
+        Usuario usuario;
+        try {
+            usuario = this.Auth(pedido);
+        } catch (Throwable e) {
+            return new RespostaHttp("Erro: Não Autorizado").code(401);
+        }
+
+        Venda venda = new Venda();
 
         try {
-            
 
             JSONObject b = new JSONObject(body);
             venda.id_produto = b.getInt("id_produto"); // Corrigido o método de conversão
@@ -30,7 +35,7 @@ public class VenderProdutoHandler extends Rota {
             venda.data_horario = b.getString("data_horario");
             venda.tempo_entrega = b.getString("tempo_entrega");
             venda.cep = b.getString("cep");
-          
+
         } catch (Throwable e) {
             e.printStackTrace();
             return new RespostaHttp().code(400).send("Body Inválido"); // Corrigido "Body Invalido"
@@ -39,7 +44,7 @@ public class VenderProdutoHandler extends Rota {
         try {
             String sql = "INSERT INTO venda ( id_produto, id_usuario,data_horario,tempo_entrega,cep) values (?, ?,?,?,?)";
             PreparedStatement ps = this.conexao.prepareStatement(sql);
-            
+
             ps.setInt(1, venda.id_produto); // Corrigido
             ps.setInt(2, venda.id_usuario);
             ps.setString(3, venda.data_horario);

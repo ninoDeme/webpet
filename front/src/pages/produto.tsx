@@ -2,18 +2,30 @@ import {Component, Show, createSignal, onMount} from 'solid-js';
 import {ProdutoI} from '../models/Produto';
 import {A, useParams} from '@solidjs/router';
 import {BuscaCepResultado} from '../models/BuscaCepResultado';
-import { favoritar } from '../AuthProvider';
+import {useAuth} from '../AuthProvider';
 
 const ProdutoPage: Component = () => {
     const [produto, setProduto] = createSignal<ProdutoI>();
     const [cepResult, setCepRes] = createSignal<BuscaCepResultado>();
     const params = useParams();
+    const {auth} = useAuth();
 
     const emptyCepIf = function () {
         if (typeof cepResult() === 'string') {
             setCepRes(undefined);
         }
     };
+
+
+    const favoritar = async (id: number) => {
+        const res = await fetch("http://localhost:3000/api/favoritos?id=" + id, {mode: "cors"});
+        if (res.status === 200) {
+            return true;
+        } else {
+            throw new Error(await res.text());
+        }
+    };
+
     const buscarCep = async function () {
         try {
             setCepRes(undefined);
@@ -62,11 +74,9 @@ const ProdutoPage: Component = () => {
             </div>
             <div class="bg-fundo1 rounded p-4 flex flex-col">
                 <div class="flex justify-end gap-4">
-                    <A href="/">
-                        <button onClick={() => favoritar(produto().id)} class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-1">
-                            <span class="material-symbols-outlined">favorite</span>
-                        </button>
-                    </A>
+                    <button onClick={() => favoritar(produto().id)} class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-1">
+                        <span class="material-symbols-outlined">favorite</span>
+                    </button>
                     <A href="/">
                         <button class="bg-fundo2 flex justify-center gap-2 rounded max-md:aspect-square py-1 px-1">
                             <span class="material-symbols-outlined">shopping_cart</span>

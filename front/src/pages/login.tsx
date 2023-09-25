@@ -1,8 +1,9 @@
 import { Navigate, useNavigate } from '@solidjs/router';
 import { Component, JSX, createSignal } from "solid-js";
-import { checkAuth, setAuth } from '../AuthProvider';
+import {useAuth} from '../AuthProvider';
 
 const Login: Component = () => {
+  const {updateAuth} = useAuth();
   const navigate = useNavigate();
 
   const LForm: Component<{ titulo: string, nome: string, type?: string; }> = (props) => (
@@ -29,11 +30,11 @@ const Login: Component = () => {
     } catch (e) {
       setStatus(<span class="text-red-600 font-bold text-lg">Não foi possível cadastrar-se: {e.message}</span>);
     }
-    const res = await fetch("http://localhost:9000/login", {
+    const res = await fetch("http://localhost:3000/api/login", {
       method: 'POST', body: JSON.stringify(body)
     });
     if (res.status === 200) {
-      setAuth(await res.text())
+      updateAuth(await res.text())
       navigate('/');
     } else {
       let msg = await res.text();

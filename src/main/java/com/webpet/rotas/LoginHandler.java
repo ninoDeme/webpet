@@ -3,6 +3,7 @@ package com.webpet.rotas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,7 +18,17 @@ import com.webpet.classes.Usuario;
 public class LoginHandler extends Rota {
     
     public LoginHandler(Connection conexao) {
-        super("LoginHandler", conexao);
+        super(conexao);
+    }
+
+    public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
+        try {
+            Usuario user = this.Auth(pedido);
+            return new RespostaHttp(user.toJSON());
+        } catch (Throwable e) {
+            return new RespostaHttp("Erro: Não Autorizado").code(401);
+        }
+
     }
 
     @Override
@@ -47,12 +58,14 @@ public class LoginHandler extends Rota {
             user.telefone = resultado.getString("telefone");
 
             Algorithm algorithm = Algorithm.HMAC256(Rota.secret);
+            user.senha = null;
             String token = JWT.create().withIssuer("WebPet").withPayload(user.toJSON()).sign(algorithm);
 
-            return new RespostaHttp(token).setHeader("Set-Cookie", "Auth=" + token);
+            return new RespostaHttp(user.toJSON()).setHeader("Set-Cookie", "Auth=" + token );
         } catch (Exception e) {
             e.printStackTrace();
-            return new RespostaHttp().code(500).send("Erro: Usuario ou Senha Incorretos");
+            return new RespostaHttp().code(401).send("Erro: Usuario ou Senha Incorretos");
         }
     }
+
 }

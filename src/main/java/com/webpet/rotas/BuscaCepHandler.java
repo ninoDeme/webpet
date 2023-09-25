@@ -15,10 +15,6 @@ import com.webpet.classes.Rota;
 
 public class BuscaCepHandler extends Rota {
 
-    public BuscaCepHandler() {
-        super("BuscaCepHandler");
-    }
-
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
         // Replace <cep> with the actual CEP value in the URL

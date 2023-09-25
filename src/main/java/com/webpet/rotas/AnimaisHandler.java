@@ -15,7 +15,7 @@ import com.webpet.classes.Rota;
 public class AnimaisHandler extends Rota {
 
     public AnimaisHandler(Connection conexao) {
-        super("AnimaisHandler", conexao);
+        super(conexao);
     }
 
     // Declare um método "get" ou "post" dependendo do tipo de requisição 

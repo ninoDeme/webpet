@@ -1,9 +1,10 @@
 import {Component, For, createMemo, createResource} from "solid-js";
 import {A, useParams} from '@solidjs/router';
 import {ProdutoSimplesI} from '../models/Produto';
-import { checkAuth } from "../AuthProvider";
+import {useAuth} from '../AuthProvider';
 
 async function fetchProdutos({animal, cat}): Promise<ProdutoSimplesI[]> {
+  const {auth} = useAuth();
   let query: string = "";
   if (cat) {
     query = `&categoria=${cat}`;
@@ -12,7 +13,7 @@ async function fetchProdutos({animal, cat}): Promise<ProdutoSimplesI[]> {
     query += `&animal=${animal}`;
   }
   if (query === "") {
-    query = "&fav=" + checkAuth().id
+    query = "&fav=" + auth.id
   }
   const res = await fetch("http://localhost:3000/api/produtos?limit=20&pagina=1" + query, {mode: 'cors'});
   return res.json().then(r => r.resultado);

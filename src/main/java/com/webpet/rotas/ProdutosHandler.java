@@ -15,7 +15,7 @@ import com.webpet.classes.Rota;
 public class ProdutosHandler extends Rota {
 
     public ProdutosHandler(Connection conexao) {
-        super("ProdutosHandler", conexao);
+        super(conexao);
     }
 
     @Override

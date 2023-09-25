@@ -4,7 +4,7 @@ import { A } from '@solidjs/router';
 import { AnimalI } from '../models/Animal';
 import { CategoriaI } from '../models/Categoria';
 import { Menu, MenuItem, Popover, PopoverButton, PopoverPanel, Transition } from 'solid-headless';
-import { authSignal, checkAuth } from "../AuthProvider";
+import {useAuth} from '../AuthProvider';
 
 const WPMenu: Component<{ title: string, itens: { title: string, link: string; }[]; }> = (props) => (
   <Popover class="relative" defaultOpen={false}>{({ isOpen }) => (<>
@@ -35,8 +35,7 @@ const WPMenu: Component<{ title: string, itens: { title: string, link: string; }
 const Cabecalho: Component = () => {
   const [categorias, setCategoria] = createSignal<CategoriaI[]>();
   const [animais, setAnimais] = createSignal<AnimalI[]>();
-  checkAuth();
-
+  const {auth} = useAuth();
   onMount(() => {
     fetch(`http://localhost:3000/api/categorias`, { mode: 'cors' }).then(async res => {
       setCategoria(await res.json().then(r => r.resultado));
@@ -55,7 +54,7 @@ const Cabecalho: Component = () => {
           <input class="flex-1 bg-transparent outline-none min-w-0" />
           <span class="material-symbols-outlined">search</span>
         </div>
-        {authSignal[0]()
+        {auth?.id
           ?
           <button class="bg-fundo_alt flex justify-center items-center gap-2 rounded max-md:aspect-square my-2 px-3" onClick={() => {localStorage.removeItem("Auth"); location.reload()}}>
             <span class="material-symbols-outlined">logout</span>

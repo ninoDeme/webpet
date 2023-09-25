@@ -7,33 +7,35 @@ import java.util.Map;
 import com.sun.net.httpserver.HttpExchange;
 import com.webpet.classes.RespostaHttp;
 import com.webpet.classes.Rota;
+import com.webpet.classes.Usuario;
+
 
 public class FavoritarProdutoHandler extends Rota {
 
     public FavoritarProdutoHandler(Connection conexao) {
-        super("UnicoProdutoHandler", conexao);
+        super(conexao);
     }
 
     // Declare um método "get" ou "post" dependendo do tipo de requisição
     @Override
     public RespostaHttp get(Map<String, String> query, HttpExchange pedido) {
+        Usuario user;
+        try {
+            user = this.Auth(pedido);
+        } catch (Throwable e) {
+            return new RespostaHttp("Erro: Não Autorizado").code(401);
+        }
+
         String response;
         try {
-            // this.Auth(pedido);
-            // Usuario usuario = this.Auth(pedido);
-            // Declarando novo Array dinámico para salvar os produtos
-
-            // Executando sql para retornar todos os produtos e salvando o resultado na
-            // variável "resultado
-            // Iterando por todos os produtos, inicializando o objeto produto e salvando no
-            // array produtos
             
             String sql = "INSERT INTO favoritos_usuario(id_produto,id_usuario,tipo)Values(?,?,'')";
             PreparedStatement ps = this.conexao.prepareStatement(sql);
             
             ps = this.conexao.prepareStatement(sql);
             ps.setInt(1, Integer.parseInt(query.get("id")));
-            ps.setInt(2, Integer.parseInt(query.get("u")));
+            ps.setInt(2, user.id);
+            ps.execute();
         
           return new RespostaHttp("Favoritado com sucesso");
            
