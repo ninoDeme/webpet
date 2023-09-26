@@ -14,6 +14,6 @@ public class AuthException extends RuntimeException {
     }
     
     public RespostaHttp getResposta() {
-        return new RespostaHttp("Erro: Não Autorizado").code(401);
+        return new RespostaHttp("Erro: Não Autorizado").code(401).setHeader("Set-Cookie", "Auth=none; Max-Age=0");
     }
 }

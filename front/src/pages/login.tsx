@@ -1,24 +1,20 @@
-import { Navigate, useNavigate } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 import { Component, JSX, createSignal } from "solid-js";
 import {useAuth} from '../AuthProvider';
+import WPForm from '../templates/WPForm';
 
 const Login: Component = () => {
   const {updateAuth} = useAuth();
   const navigate = useNavigate();
 
-  const LForm: Component<{ titulo: string, nome: string, type?: string; }> = (props) => (
-    <div>
-      <h3 class="text-xl">{props.titulo}</h3>
-      <input class="w-96 outline-none bg-transparent text-lg border-b border-gray-700 mt-1" id={`${props.nome}-form`} type={props.type} />
-    </div>
-  );
+  let form: {email?: HTMLInputElement, senha?: HTMLInputElement} = {}
 
   const [statusc, setStatus] = createSignal<JSX.Element>();
   const sendCadastrar = async () => {
 
     const body = {
-      email: (document.getElementById("email-form") as HTMLInputElement).value,
-      senha: (document.getElementById("senha-form") as HTMLInputElement).value,
+      email: form.email?.value,
+      senha: form.senha?.value,
     };
     try {
       if (!body.senha) {
@@ -38,21 +34,21 @@ const Login: Component = () => {
       navigate('/');
     } else {
       let msg = await res.text();
-      setStatus(<span class="text-red-600 font-bold text-lg">Não foi possíve fazer login: {msg}</span>);
+      setStatus(<span class="text-red-600 font-bold text-lg">Não foi possível fazer login: {msg}</span>);
     };
   };
 
   return (
-    <div class="mx-8 my-10 md:mx-20 flex flex-col items-start gap-5">
+    <form onSubmit={(form) => {sendCadastrar(); form.preventDefault()}} novalidate class="mx-8 my-10 md:mx-20 flex flex-col items-start gap-5">
       <h1 class="text-4xl">Faça Login</h1>
-      <LForm titulo="E-Mail" nome="email" type="email" />
-      <LForm titulo="Senha" nome="senha" type="password" />
-      <button onClick={sendCadastrar} class="bg-fundo1 text-lg flex justify-center gap-2 rounded py-1 px-4 hover:bg-fundo_alt hover:text-texto">
+      <WPForm titulo="E-Mail" nome="email" type="email" ref={form.email}/>
+      <WPForm titulo="Senha" nome="senha" type="password" ref={form.senha}/>
+      <button type="submit" class="bg-fundo1 text-lg flex justify-center gap-2 rounded py-1 px-4 hover:bg-fundo_alt hover:text-texto">
         <span>Entrar</span>
         {/* <span class="material-sybols-outlined">{props.icone}</span> */}
       </button>
       {statusc()}
-    </div>
+    </form>
   );
 };
 

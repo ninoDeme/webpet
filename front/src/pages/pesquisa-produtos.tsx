@@ -1,4 +1,4 @@
-import {Component, For, createEffect, createMemo, createResource} from "solid-js";
+import {Component, For, createMemo, createResource} from "solid-js";
 import {A, useLocation, useParams} from '@solidjs/router';
 import {ProdutoSimplesI} from '../models/Produto';
 

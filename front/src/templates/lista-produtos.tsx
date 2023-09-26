@@ -4,11 +4,8 @@ import { Navigation } from "swiper/modules";
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-import { register } from 'swiper/element/bundle';
 import { ProdutoSimplesI } from "../models/Produto";
 import { A } from '@solidjs/router';
-register();
-
 const ListaProdutos: Component<{ produtos: ProdutoSimplesI[], titulo: string; }> = (props) => {
   const id = Math.floor(Math.random() * 200 + 1);
 
